@@ -17,17 +17,26 @@
     <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="wwwroot\assets\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\assets\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\COMP306.LibraryManagement.BUS\COMP306.LibraryManagement.BUS.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-    <ProjectReference Include="..\COMP306.LİbraryManagement.DAL\COMP306.LİbraryManagement.DAL.csproj">
+    <ProjectReference Include="..\COMP306.LibraryManagement.DAL\COMP306.LibraryManagement.DAL.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\COMP306.LibraryManagement.COM\COMP306.LibraryManagement.COM.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Views\Collections\" />
+    <None Remove="Views\Reservation\" />
+    <None Remove="Views\Profile\" />
+    <None Remove="Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Collections\" />
+    <Folder Include="Views\Reservation\" />
+    <Folder Include="Views\Profile\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 </Project>

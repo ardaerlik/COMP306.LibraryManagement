@@ -1,6 +1,7 @@
 ﻿using System;
-using COMP306.LİbraryManagement.DAL.Context;
-using COMP306.LİbraryManagement.DAL.Entity;
+using COMP306.LibraryManagement.BUS.Model;
+using COMP306.LibraryManagement.DAL.Context;
+using COMP306.LibraryManagement.DAL.Entity;
 
 namespace COMP306.LibraryManagement.BUS.Service
 {
@@ -18,11 +19,28 @@ namespace COMP306.LibraryManagement.BUS.Service
 			var data = (from obj in _context.TftBooks select obj).ToList();
             return data;
 		}
-	}
+
+		public IEnumerable<PieChartModel> ListBooksSubjectsPercentage()
+		{
+			var data = (from obj in _context.TluSubjects
+						group obj.Books by obj.Id into g
+						select new PieChartModel
+						{
+							value = g.Count() ,
+							name = (from subject in _context.TluSubjects
+									where subject.Id == g.Key
+									select subject.Name
+									).First()
+						}
+						).ToList();
+			return data;
+		}
+    }
 
 	public interface IBookService
 	{
 		IEnumerable<TftBook> List();
+		IEnumerable<PieChartModel> ListBooksSubjectsPercentage();
     }
 }
 

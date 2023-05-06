@@ -8,12 +8,13 @@
 
   <ItemGroup>
     <None Remove="Service\" />
+    <None Remove="Dto\" />
+    <None Remove="Model\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Service\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\COMP306.LİbraryManagement.DAL\COMP306.LİbraryManagement.DAL.csproj" />
+    <Folder Include="Dto\" />
+    <Folder Include="Model\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.EntityFrameworkCore, Version=7.0.5.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" />
@@ -30,5 +31,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\COMP306.LibraryManagement.COM\COMP306.LibraryManagement.COM.csproj" />
+    <ProjectReference Include="..\COMP306.LibraryManagement.DAL\COMP306.LibraryManagement.DAL.csproj" />
   </ItemGroup>
 </Project>

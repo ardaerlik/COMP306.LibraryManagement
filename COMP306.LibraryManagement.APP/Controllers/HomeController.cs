@@ -18,8 +18,12 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        ViewBag.Books = _bookService.List();
         return View();
+    }
+
+    public IActionResult ListBooksSubjectsPercentage()
+    {
+        return Json(_bookService.ListBooksSubjectsPercentage());
     }
 
     public IActionResult Privacy()
