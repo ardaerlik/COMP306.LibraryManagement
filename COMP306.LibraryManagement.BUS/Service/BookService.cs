@@ -23,16 +23,12 @@ namespace COMP306.LibraryManagement.BUS.Service
 		public IEnumerable<PieChartModel> ListBooksSubjectsPercentage()
 		{
 			var data = (from obj in _context.TluSubjects
-						group obj.Books by obj.Id into g
-						select new PieChartModel
-						{
-							value = g.Count() ,
-							name = (from subject in _context.TluSubjects
-									where subject.Id == g.Key
-									select subject.Name
-									).First()
-						}
-						).ToList();
+					select new PieChartModel
+					{
+						value = obj.Books.Count(),
+						name = obj.Name
+					}).ToList();
+
 			return data;
 		}
     }

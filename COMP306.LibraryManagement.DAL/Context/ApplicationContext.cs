@@ -20,16 +20,19 @@ public partial class ApplicationContext : DbContext
 
     public virtual DbSet<TftBook> TftBooks { get; set; }
 
+    public virtual DbSet<TftBookreservation> TftBookreservations { get; set; }
+
     public virtual DbSet<TluContent> TluContents { get; set; }
 
     public virtual DbSet<TluLanguage> TluLanguages { get; set; }
+
+    public virtual DbSet<TluReservationstatus> TluReservationstatuses { get; set; }
 
     public virtual DbSet<TluStatetype> TluStatetypes { get; set; }
 
     public virtual DbSet<TluSubject> TluSubjects { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySQL("Server=comp-306-library-management.mysql.database.azure.com;Database=preprod;User ID=comp306;Password=test1234!");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -162,6 +165,29 @@ public partial class ApplicationContext : DbContext
                     });
         });
 
+        modelBuilder.Entity<TftBookreservation>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("tft_bookreservations");
+
+            entity.HasIndex(e => e.BookId, "tft_bookreservations_tft_book_Id_fk");
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.BookId).HasColumnType("int(11)");
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.ReservationEndDate).HasColumnType("datetime");
+            entity.Property(e => e.ReservationStartDate).HasColumnType("datetime");
+            entity.Property(e => e.ReservationStatus).HasColumnType("int(11)");
+            entity.Property(e => e.UserId).HasColumnType("int(11)");
+
+            entity.HasOne(d => d.Book).WithMany(p => p.TftBookreservations)
+                .HasForeignKey(d => d.BookId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("tft_bookreservations_tft_book_Id_fk");
+        });
+
         modelBuilder.Entity<TluContent>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -181,6 +207,18 @@ public partial class ApplicationContext : DbContext
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.Name).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<TluReservationstatus>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("tlu_reservationstatus");
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.NextStatusId).HasColumnType("int(11)");
+            entity.Property(e => e.PreviousStatusId).HasColumnType("int(11)");
+            entity.Property(e => e.StatusName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<TluStatetype>(entity =>

@@ -29,6 +29,8 @@ public partial class TftBook
 
     public virtual TluLanguage Language { get; set; } = null!;
 
+    public virtual ICollection<TftBookreservation> TftBookreservations { get; set; } = new List<TftBookreservation>();
+
     public virtual ICollection<TftAuthor> Authors { get; set; } = new List<TftAuthor>();
 
     public virtual ICollection<TluContent> Contents { get; set; } = new List<TluContent>();
