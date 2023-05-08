@@ -3,13 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>@ViewData["Title"] - Koç University Library</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/COMP306.LibraryManagement.APP.styles.css" asp-append-version="true" />
 
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" />
 
     <link href="~/lib/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="~/lib/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -109,7 +112,7 @@
     <main role="main" class="main" id="main">
         @RenderBody()
     </main>
-    
+
     <footer id="footer" class="footer">
         <div class="copyright">
             &copy; Copyright <strong><span>COMP306.LibraryManagement</span></strong>. All Rights Reserved
@@ -128,6 +131,7 @@
     <script src="~/lib/tinymce/tinymce.min.js"></script>
     <script src="~/lib/php-email-form/validate.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/calendar.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

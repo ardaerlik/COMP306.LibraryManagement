@@ -1212,3 +1212,12 @@ h6 {
     font-size: 13px;
     color: #012970;
 }
+
+#reservationCalendar .scheduler_default_cellparent, .scheduler_default_cell.scheduler_default_cell_business.scheduler_default_cellparent {
+    background: #f3f3f3;
+}
+
+.scheduler_default_corner :nth-child(2) {
+    display: none !important;
+} 
+

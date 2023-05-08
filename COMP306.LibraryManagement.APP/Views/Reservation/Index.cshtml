@@ -18,6 +18,13 @@
 
 <section class="section">
     <div class="row">
-
+        <div id="reservationCalendar"></div>
+        <script>document.addEventListener("DOMContentLoaded", () => {
+                CreateScheduler("reservationCalendar", "@DateTime.Now.ToString("yyyy-MM-dd")", "URL");
+            });</script>
     </div>
 </section>
+
+<link href="~/lib/daypilot/main.css" rel="stylesheet" />
+<script src="~/lib/daypilot/daypilot-all.min.js"></script>
+<script src="~/lib/daypilot/app.js"></script>
