@@ -14,7 +14,7 @@ public partial class TftBook
     /// </summary>
     public string? PublicationTitle { get; set; }
 
-    public int CallNumber { get; set; }
+    public string CallNumber { get; set; } = null!;
 
     /// <summary>
     /// DOI
@@ -27,9 +27,17 @@ public partial class TftBook
 
     public DateTime? PublicationDate { get; set; }
 
-    public virtual TluLanguage Language { get; set; } = null!;
+    public int? Edition { get; set; }
 
-    public virtual ICollection<TftBookreservation> TftBookreservations { get; set; } = new List<TftBookreservation>();
+    public int? Volume { get; set; }
+
+    public int? Issue { get; set; }
+
+    public string Link { get; set; } = null!;
+
+    public DateTime AddedDate { get; set; }
+
+    public virtual TluLanguage Language { get; set; } = null!;
 
     public virtual ICollection<TftAuthor> Authors { get; set; } = new List<TftAuthor>();
 
