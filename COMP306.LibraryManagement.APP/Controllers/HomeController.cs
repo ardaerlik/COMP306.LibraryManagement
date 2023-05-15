@@ -26,6 +26,11 @@ public class HomeController : Controller
         return Json(_bookService.ListBooksSubjectsPercentage());
     }
 
+    public IActionResult GetBestRankedBook()
+    {
+        return Json(_bookService.GetBestRankedBook());
+    }
+
     public IActionResult Privacy()
     {
         return View();

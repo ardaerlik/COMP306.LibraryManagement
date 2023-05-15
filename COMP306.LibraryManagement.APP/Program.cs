@@ -7,10 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<ApplicationContext>(options =>
-{
-    options.UseMySQL("Server=comp-306-library-management.mysql.database.azure.com;Database=preprod;User ID=comp306;Password=test1234!");
-});
+//builder.Services.AddDbContext<ApplicationContext>(options =>
+//{
+//    options.UseMySQL("Server=comp-306-library-management.mysql.database.azure.com;Database=preprod;User ID=comp306;Password=test1234!");
+//});
+
+builder.Services.AddDbContext<ApplicationContext>();
 
 builder.Services.AddScoped<IBookService, BookService>();
 
