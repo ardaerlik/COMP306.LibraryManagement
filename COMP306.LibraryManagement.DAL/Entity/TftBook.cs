@@ -33,11 +33,11 @@ public partial class TftBook
 
     public int? Issue { get; set; }
 
-    public int? Ranking { get; set; }
-
     public string Link { get; set; } = null!;
 
     public DateTime AddedDate { get; set; }
+
+    public int? Rating { get; set; }
 
     public virtual TluLanguage Language { get; set; } = null!;
 
