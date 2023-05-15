@@ -31,12 +31,20 @@ namespace COMP306.LibraryManagement.BUS.Service
 
 			return data;
 		}
+
+		public TftBook GetBestRankedBook()
+		{
+            var bestRankedBook = _context.TftBooks.OrderByDescending(book => book.Ranking).FirstOrDefault();
+
+            return bestRankedBook;
+        }
     }
 
 	public interface IBookService
 	{
 		IEnumerable<TftBook> List();
 		IEnumerable<PieChartModel> ListBooksSubjectsPercentage();
+		TftBook GetBestRankedBook();
     }
 }
 

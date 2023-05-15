@@ -364,3 +364,24 @@ function CreateReportChart(_id) {
         }
     }).render();
 }
+
+
+
+
+function UpdateBestRankedBook(_id, _url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var bookElement = document.querySelector('#' + _id + ' .ps-3 h6');
+            var authorElement = document.querySelector('#' + _id + ' .ps-3 span');
+
+            bookElement.innerHTML = _data.title;
+            authorElement.innerHTML = _data.authors[0].name;
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
