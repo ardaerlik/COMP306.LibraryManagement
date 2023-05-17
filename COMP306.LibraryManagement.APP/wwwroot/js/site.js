@@ -367,7 +367,6 @@ function CreateReportChart(_id) {
 
 
 
-
 function UpdateBestRankedBook(_id, _url) {
     $.ajax({
         type: 'GET',
@@ -375,11 +374,11 @@ function UpdateBestRankedBook(_id, _url) {
         datatype: 'json',
         cache: false,
         success: function (_data) {
-            var bookElement = document.querySelector('#' + _id + ' .ps-3 h6');
-            var authorElement = document.querySelector('#' + _id + ' .ps-3 span');
+            var bookElement = document.querySelector('#' + _id + ' h6');
+            var authorElement = document.querySelector('#' + _id + ' span');
 
             bookElement.innerHTML = _data.title;
-            authorElement.innerHTML = _data.authors[0].name;
+            authorElement.innerHTML = _data.authors[0];
         },
         error: function (xhr, errorType, exception) {
             console.log("error: ", xhr, " ", errorType, " ", exception);

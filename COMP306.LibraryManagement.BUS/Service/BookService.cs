@@ -22,7 +22,6 @@ namespace COMP306.LibraryManagement.BUS.Service
 
 		public IEnumerable<PieChartModel> ListBooksSubjectsPercentage()
 		{
-			var asdf = (from obj in _context.TluSubjects select obj).ToList();
 			var data = (from obj in _context.TluSubjects
 					select new PieChartModel
 					{
@@ -35,7 +34,6 @@ namespace COMP306.LibraryManagement.BUS.Service
 
 		public TftBook GetBestRankedBook()
 		{
-			var asdf = _context.TftBooks.OrderByDescending(t => t.Id).FirstOrDefault();
             var bestRankedBook = _context.TftBooks.OrderByDescending(t => t.Rating).FirstOrDefault();
 
             return bestRankedBook ?? new();
