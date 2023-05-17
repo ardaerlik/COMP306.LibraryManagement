@@ -365,7 +365,7 @@ function CreateReportChart(_id) {
     }).render();
 }
 
-function LoadNewcomerBooks(_id, _url) {
+function LoadNewComerBooks(_id, _url) {
     $.ajax({
         type: 'POST',
         url: _url,
