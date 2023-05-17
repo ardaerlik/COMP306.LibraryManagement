@@ -364,3 +364,21 @@ function CreateReportChart(_id) {
         }
     }).render();
 }
+
+function findBook(_url) {
+    debugger;
+    $.ajax({
+        type: 'POST',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            debugger;
+            console.log(_data);
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+
+}

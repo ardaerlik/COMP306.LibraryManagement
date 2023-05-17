@@ -31,12 +31,20 @@ namespace COMP306.LibraryManagement.BUS.Service
 
 			return data;
 		}
+
+        public IEnumerable<TftBook> BookList()
+        {
+            Console.WriteLine("Hello World from Book Service\n\n\n\n");
+            var data = (from obj in _context.TftBooks select obj).ToList();
+            return data;
+        }
     }
 
 	public interface IBookService
 	{
 		IEnumerable<TftBook> List();
 		IEnumerable<PieChartModel> ListBooksSubjectsPercentage();
+		IEnumerable<TftBook> BookList();
     }
 }
 
