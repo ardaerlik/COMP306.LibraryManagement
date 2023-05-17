@@ -378,7 +378,7 @@ function UpdateBestRankedBook(_id, _url) {
             var authorElement = document.querySelector('#' + _id + ' span');
 
             bookElement.innerHTML = _data.title;
-            authorElement.innerHTML = _data.authors[0];
+            authorElement.innerHTML = "Rating : " + _data.rating;
         },
         error: function (xhr, errorType, exception) {
             console.log("error: ", xhr, " ", errorType, " ", exception);
