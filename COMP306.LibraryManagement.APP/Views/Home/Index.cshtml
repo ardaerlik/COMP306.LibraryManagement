@@ -143,7 +143,7 @@
 
         <div class="col-lg-4">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" id="newcomer">
                     <h5 class="card-title">New Comers <span>| Books</span></h5>
                     <div class="activity">
                         <div class="activity-item d-flex">
@@ -190,6 +190,11 @@
                         </div>
                     </div>
                 </div>
+                <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            LoadNewcomerBooks("newcomer", "@Url.Action("ListNewComerBooks", "Home")");
+                        });
+                </script>
             </div>
 
             <div class="card">

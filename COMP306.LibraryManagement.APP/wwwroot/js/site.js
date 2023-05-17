@@ -364,3 +364,32 @@ function CreateReportChart(_id) {
         }
     }).render();
 }
+
+function LoadNewcomerBooks(_id, _url) {
+    $.ajax({
+        type: 'POST',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var activityDiv = $("#" + _id).find(".activity");
+            activityDiv.empty();
+
+            _data.forEach(function (book) {
+                var date = moment(book.addedDate);
+                var now = moment();
+                var addTimeAgo = moment.duration(now.diff(date)).humanize() + ' ago';
+
+                var item = '<div class="activity-item d-flex">' +
+                    '<div class="activite-label">' + addTimeAgo + '</div>' +
+                    '<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>' +
+                    '<div class="activity-content">' + book.title +
+                    '</div></div>';
+                activityDiv.append(item);
+            });
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
