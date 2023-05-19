@@ -22,10 +22,11 @@
         <script>document.addEventListener("DOMContentLoaded", () => {
             CreateScheduler("reservationCalendar",
                 "@DateTime.Now.ToString("yyyy-MM-dd")",
-                "@Url.Action("List", "Reservation")",
-                "@Url.Action("Add", "Reservation")",
-                "@Url.Action("Update", "Reservation")",
-                "@Url.Action("Delete", "Reservation")");
+                "@Url.Action("ListAsync", "Reservation")",
+                "@Url.Action("AddAsync", "Reservation")",
+                "@Url.Action("UpdateAsync", "Reservation")",
+                "@Url.Action("DeleteAsync", "Reservation")",
+                "nblance0@cbslocal.com");
             });
         </script>
     </div>
