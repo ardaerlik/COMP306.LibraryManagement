@@ -1,4 +1,4 @@
-﻿function CreateScheduler(_id, _startDate, _url) {
+﻿function CreateScheduler(_id, _startDate, _listUrl, _addUrl, _updateUrl, _deleteUrl) {
     const dp = new DayPilot.Scheduler(_id, {
         startDate: _startDate,
         days: 365,
@@ -20,12 +20,14 @@
                 {
                     text: "Edit",
                     onClick: (args) => {
+                        console.log(args);
                         dp.events.edit(args.source);
                     }
                 },
                 {
                     text: "Delete",
                     onClick: (args) => {
+                        console.log(args);
                         dp.events.remove(args.source);
                     }
                 },
@@ -33,74 +35,70 @@
                 {
                     text: "Select",
                     onClick: (args) => {
+                        console.log(args);
                         dp.multiselect.add(args.source);
                     }
                 }
             ]
         }),
         onEventMoved: (args) => {
+            console.log(args);
             dp.message("Moved: " + args.e.text());
         },
         onEventMoving: (args) => {
-            if (args.e.resource() === "A" && args.resource === "B") {
-                args.left.enabled = false;
-                args.right.html = "You can't move an event from Room 1 to Room 2";
-
-                args.allowed = false;
-            }
-            else if (args.resource === "B") {
-                while (args.start.getDayOfWeek() === 0 || args.start.getDayOfWeek() === 6) {
-                    args.start = args.start.addDays(1);
-                }
-                args.end = args.start.addDays(1);
-                args.left.enabled = false;
-                args.right.html = "Events in Room 2 must start on a workday and are limited to 1 day.";
-            }
-
-            if (args.resource === "C") {
-                const except = args.e.data;
-                const events = dp.rows.find(args.resource).events.all();
-
-                let start = args.start;
-                let end = args.end;
-                let overlaps = events.some(item => item.data !== except && DayPilot.Util.overlaps(item.start(), item.end(), start, end));
-
-                while (overlaps) {
-                    start = start.addDays(1);
-                    end = end.addDays(1);
-                    overlaps = events.some(item => item.data !== except && DayPilot.Util.overlaps(item.start(), item.end(), start, end));
-                }
-
-                if (args.start !== start) {
-                    args.start = start;
-                    args.end = end;
-
-                    args.left.enabled = false;
-                    args.right.html = "Start automatically moved to " + args.start.toString("d MMMM, yyyy");
-                }
-
-            }
+            // TODO: Update
+            args.allowed = false;
         },
         onEventResized: (args) => {
+            // TODO: Update
+            console.log(args);
             dp.message("Resized: " + args.e.text());
         },
         onTimeRangeSelected: async (args) => {
-            const modal = await DayPilot.Modal.prompt("New event name:", "New Event")
+            const modal = await DayPilot.Modal.prompt("New reservation: ", "Your email address")
             dp.clearSelection();
             if (modal.canceled) {
                 return;
             }
-            const name = modal.result;
-            dp.events.add({
-                start: args.start,
-                end: args.end,
-                id: DayPilot.guid(),
+            console.log(args);
+            const postData = {
+                start: args.start.value,
+                end: args.end.value,
                 resource: args.resource,
-                text: name
+                email: modal.result
+            };
+            console.log(postData);
+
+            $.ajax({
+                type: 'POST',
+                url: _addUrl,
+                datatype: 'json',
+                cache: false,
+                data: JSON.stringify(postData),
+                contentType: 'application/json; charset=UTF-8',
+                success: function (_data) {
+                    if (_data.hasError == false && _data.data !== undefined && _data.data !== null) {
+                        // dp.events.add({
+                        //     start: args.start,
+                        //     end: args.end,
+                        //     id: DayPilot.guid(),
+                        //     resource: args.resource,
+                        //     text: name
+                        // });
+                        dp.message("Created");
+                    }
+                    else {
+                        console.error("error: ", _data.ExceptionMessage);
+                    }
+                },
+                error: function (xhr, errorType, exception) {
+                    console.error("error: ", xhr, " ", errorType, " ", exception);
+                }
             });
-            dp.message("Created");
         },
         onEventMove: (args) => {
+            // TODO: Update
+            console.log(args);
             if (args.ctrl) {
                 dp.events.add({
                     start: args.newStart,
@@ -131,47 +129,38 @@
             return colors[i % 4];
         },
         loadData() {
-            // TODO: Ajax call
-            const resources = [
-                {
-                    name: "Rooms", id: "G1", expanded: true, children: [
-                        { name: "Room 1", id: "A" },
-                        { name: "Room 2", id: "B" },
-                        { name: "Room 3", id: "C" },
-                        { name: "Room 4", id: "D" },
-                    ]
+            $.ajax({
+                type: 'GET',
+                url: _listUrl,
+                datatype: 'json',
+                cache: false,
+                success: function (_data) {
+                    if (_data.hasError == false && _data.data !== undefined && _data.data !== null) {
+                        const resources = _data.data.resources;
+                        const events = [];
+                        for (let i = 0; i < _data.data.events.length; i++) {
+                            events.push({
+                                start: new DayPilot.Date(_data.data.events[i].start),
+                                end: new DayPilot.Date(_data.data.events[i].end),
+                                id: _data.data.events[i].id,
+                                resource: _data.data.events[i].resource,
+                                text: _data.data.events[i].text,
+                                bubbleHtml: _data.data.events[i].bubbleHtml,
+                                barColor: app.barColor(i),
+                                barBackColor: app.barBackColor(i)
+                            });
+                        }
+
+                        dp.update({ resources, events });
+                    }
+                    else {
+                        console.error("error: ", _data.ExceptionMessage);
+                    }
                 },
-                {
-                    name: "Tables", id: "G2", expanded: true, children: [
-                        { name: "Table 1", id: "E" },
-                        { name: "Table 2", id: "F" },
-                        { name: "Table 3", id: "G" },
-                        { name: "Table 4", id: "H" }
-                    ]
+                error: function (xhr, errorType, exception) {
+                    console.error("error: ", xhr, " ", errorType, " ", exception);
                 }
-            ];
-
-            const events = [];
-            for (let i = 0; i < 12; i++) {
-                const duration = Math.floor(Math.random() * 6) + 1;
-                const durationDays = Math.floor(Math.random() * 6) + 1;
-                const start = Math.floor(Math.random() * 6) + 2;
-
-                const e = {
-                    start: new DayPilot.Date(_startDate).addHours(start),
-                    end: new DayPilot.Date(_startDate).addHours(start).addHours(durationDays),
-                    id: DayPilot.guid(),
-                    resource: String.fromCharCode(65 + i),
-                    text: "Event " + (i + 1),
-                    bubbleHtml: "Event " + (i + 1),
-                    barColor: app.barColor(i),
-                    barBackColor: app.barBackColor(i)
-                };
-
-                events.push(e);
-            }
-
-            dp.update({ resources, events });
+            });
         },
     };
 
