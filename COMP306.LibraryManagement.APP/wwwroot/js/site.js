@@ -367,7 +367,7 @@ function CreateReportChart(_id) {
 
 function LoadNewComerBooks(_id, _url) {
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: _url,
         datatype: 'json',
         cache: false,
