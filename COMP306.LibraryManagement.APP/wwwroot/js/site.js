@@ -375,10 +375,10 @@ function UpdateBestRankedBook(_id, _url) {
         cache: false,
         success: function (_data) {
             var bookElement = document.querySelector('#' + _id + ' h6');
-            var authorElement = document.querySelector('#' + _id + ' span');
+            var ratingElement = document.querySelector('#' + _id + ' span');
 
             bookElement.innerHTML = _data.title;
-            authorElement.innerHTML = "Rating : " + _data.rating;
+            ratingElement.innerHTML = "Rating : " + _data.rating;
         },
         error: function (xhr, errorType, exception) {
             console.log("error: ", xhr, " ", errorType, " ", exception);
