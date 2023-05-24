@@ -242,8 +242,8 @@
                         dp.update({ resources, events });
                     }
                     else {
-                        dp.message(_data.ExceptionMessage);
-                        console.error("error: ", _data.ExceptionMessage);
+                        dp.message(_data.exceptionMessage);
+                        console.error("error: ", _data.exceptionMessage);
                     }
                 },
                 error: function (xhr, errorType, exception) {

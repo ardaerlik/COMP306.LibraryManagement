@@ -32,11 +32,15 @@
     <None Remove="Views\Reservation\" />
     <None Remove="Views\Profile\" />
     <None Remove="Extensions\" />
+    <None Remove="Views\Login\" />
+    <None Remove="Views\Register\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Collections\" />
     <Folder Include="Views\Reservation\" />
     <Folder Include="Views\Profile\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Views\Register\" />
   </ItemGroup>
 </Project>

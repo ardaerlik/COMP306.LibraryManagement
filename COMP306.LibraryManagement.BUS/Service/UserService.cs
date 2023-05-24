@@ -1,4 +1,5 @@
 ﻿using System;
+using COMP306.LibraryManagement.BUS.Model;
 using COMP306.LibraryManagement.COM.Model;
 using COMP306.LibraryManagement.DAL.Context;
 using COMP306.LibraryManagement.DAL.Entity;
@@ -41,7 +42,6 @@ namespace COMP306.LibraryManagement.BUS.Service
                                                        select permission).Any()
                                                 select role).Any()
                                           select user).AnyAsync();
-
             return isAuthorizedUser;
         }
 
@@ -95,7 +95,7 @@ namespace COMP306.LibraryManagement.BUS.Service
 
                 return new()
                 {
-                    Data = newUser,
+                    Data = newUser.Id,
                     HasError = false
                 };
             }
@@ -127,7 +127,7 @@ namespace COMP306.LibraryManagement.BUS.Service
                 {
                     return new()
                     {
-                        Data = loginUser,
+                        Data = loginUser.Id,
                         HasError = false
                     };
                 }
@@ -149,6 +149,22 @@ namespace COMP306.LibraryManagement.BUS.Service
                 };
             }
         }
+
+        public ViewBagModel CreateViewBagModel(int userId)
+        {
+            var user = (from u in _context.AppUsers
+                        where u.Id == userId
+                        select u).First();
+            var data = new ViewBagModel()
+            {
+                Email = user.Email,
+                FullName = $"{user.Name} {user.Surname}",
+                RoleName = string.Join(", ", (from role in user.Roles
+                                              select role.Name).ToArray())
+            };
+
+            return data;
+        }
 	}
 
     /// <summary>
@@ -159,6 +175,7 @@ namespace COMP306.LibraryManagement.BUS.Service
         Task<bool> IsAuthorized(string email, int sectionId, int actionId);
         Task<ResponseModel> Register(RegisterModel model);
         Task<ResponseModel> Login(LoginModel model);
+        ViewBagModel CreateViewBagModel(int userId);
     }
 }
 
