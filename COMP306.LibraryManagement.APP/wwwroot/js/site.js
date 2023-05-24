@@ -364,3 +364,37 @@ function CreateReportChart(_id) {
         }
     }).render();
 }
+
+
+
+function UpdateUserStatistics(userCountUrl, userIncreaseRateUrl) {
+    $.ajax({
+        type: 'GET',
+        url: userCountUrl,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            $("#total-users").text(_data);
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: userIncreaseRateUrl,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var rate = (Math.abs(_data) * 100).toFixed(2);
+            var label = _data > 0 ? "increase" : "decrease";
+            $("#user-increase-rate").text(rate + "%");
+            $("#user-increase-rate").addClass(_data > 0 ? "text-success" : "text-danger");
+            $("#increase-decrease-label").text(label);
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
