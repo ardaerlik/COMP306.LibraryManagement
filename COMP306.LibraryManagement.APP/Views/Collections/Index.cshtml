@@ -23,9 +23,22 @@
             <div class="input-box">
                 <input type="text" class="form-control">
                 <i class="fade fa-search"></i>
+                <button id="search-submit-button">Submit</button>
                 <script>
+                    document.querySelector("#search-submit-button").addEventListener("click", () => {
+                        findBook("result-section", "@Url.Action("BookList", "Collections")");
+                    }); // Ask to Arda?
                     document.addEventListener("DOMContentLoaded", () => {
-                        findBook("@Url.Action("BookList", "Collections")");
+                        getContents("content-type-collapse", "@Url.Action("ContentsList", "Collections")");
+                    });
+                    document.addEventListener("DOMContentLoaded", () => {
+                        getSubjects("subject-term-collapse", "@Url.Action("SubjectsList", "Collections")");
+                    });
+                    document.addEventListener("DOMContentLoaded", () => {
+                        getLanguages("language-collapse", "@Url.Action("LanguagesList", "Collections")");
+                    });
+                    document.addEventListener("DOMContentLoaded", () => {
+                        getAuthors("author-collapse", "@Url.Action("AuthorsList", "Collections")");
                     });
                 </script>
             </div>
@@ -40,7 +53,7 @@
                         <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#content-type-collapse" aria-expanded="true">
                             Content Type
                         </button>
-                        <div class="collapse show form-check" id="content-type-collapse">                        
+                        <div class="collapse show form-check scrollable-collections" id="content-type-collapse">                        
                             <input class="form-check-input" type="checkbox" value="" id="contentType1">
                             <label class="form-check-label" for="contentType1">
                                 Content Type1
@@ -78,7 +91,7 @@
                         <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#subject-term-collapse" aria-expanded="false">
                             Subject Terms 
                         </button>
-                        <div class="collapse show form-check" id="subject-term-collapse">
+                        <div class="collapse show form-check scrollable-collections" id="subject-term-collapse">
                             <input class="form-check-input" type="checkbox" value="" id="subjectTerm1">
                             <label class="form-check-label" for="subjectTerm1">
                                 Subject Term1
@@ -93,7 +106,7 @@
                         <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#author-collapse" aria-expanded="false">
                              Author
                         </button>
-                        <div class="collapse form-check" id="author-collapse">
+                        <div class="collapse form-check scrollable-collections" id="author-collapse">
                             <input class="form-check-input" type="checkbox" value="" id="author1">
                             <label class="form-check-label" for="aurhor1">
                                 Author1
@@ -108,7 +121,7 @@
                         <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#language-collapse" aria-expanded="false">
                             Langauage
                         </button>
-                        <div class="collapse form-check" id="language-collapse">
+                        <div class="collapse form-check scrollable-collections" id="language-collapse">
                             <input class="form-check-input" type="checkbox" value="" id="language1">
                             <label class="form-check-label" for="language1">
                                 Language1
@@ -143,5 +156,6 @@
                     </li>
             </ul>
         </div>
+        <div id="myTraffic" style="min-height: 400px;" class="echart"></div>
     </div>
 </section>

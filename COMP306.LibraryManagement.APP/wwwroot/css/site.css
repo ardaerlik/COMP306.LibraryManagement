@@ -1,4 +1,4 @@
-<<<<<<< Updated upstream
+
 ﻿html {
     font-size: 14px;
 }
@@ -2437,4 +2437,12 @@ h6 {
     font-size: 13px;
     color: #012970;
 }
->>>>>>> Stashed changes
+
+
+.scrollable-collections {
+    max-height: 200px; /* Set the maximum height to limit the scrollable area */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
+

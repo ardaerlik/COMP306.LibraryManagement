@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using COMP306.LibraryManagement.BUS.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -27,9 +28,28 @@ namespace COMP306.LibraryManagement.APP.Controllers
 
         public IActionResult BookList()
         {
-            Console.WriteLine("Hello World from Collection Controller\n\n\n\n");
-            return View(_bookService.BookList());
+            return Json(_bookService.BookList());
         }
+        public IActionResult ContentsList()
+        {
+            return Json(_bookService.ContentsList());
+        }
+
+        public IActionResult SubjectsList()
+        {
+            return Json(_bookService.SubjectsList());
+        }
+
+        public IActionResult LanguagesList()
+        {
+            return Json(_bookService.LanguagesList());
+        }
+
+        public IActionResult AuthorsList()
+        {
+            return Json(_bookService.AuthorsList());
+        }
+
     }
 }
 
