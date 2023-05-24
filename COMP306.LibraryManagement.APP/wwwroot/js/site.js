@@ -269,9 +269,8 @@
 })();
 
 function CreatePieChart(_id, _url) {
-    debugger;
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: _url,
         datatype: 'json',
         cache: false,
@@ -309,7 +308,7 @@ function CreatePieChart(_id, _url) {
             });
         },
         error: function (xhr, errorType, exception) {
-            console.log("error: ", xhr, " ", errorType, " ", exception);
+            console.error("error: ", xhr, " ", errorType, " ", exception);
         }
     });
 }

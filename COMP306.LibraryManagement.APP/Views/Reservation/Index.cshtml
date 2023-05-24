@@ -20,8 +20,15 @@
     <div class="row">
         <div id="reservationCalendar"></div>
         <script>document.addEventListener("DOMContentLoaded", () => {
-                CreateScheduler("reservationCalendar", "@DateTime.Now.ToString("yyyy-MM-dd")", "URL");
-            });</script>
+            CreateScheduler("reservationCalendar",
+                "@DateTime.Now.ToString("yyyy-MM-dd")",
+                "@Url.Action("List", "Reservation")",
+                "@Url.Action("Add", "Reservation")",
+                "@Url.Action("Update", "Reservation")",
+                "@Url.Action("Delete", "Reservation")",
+                "knevisonj@tinyurl.com");
+            });
+        </script>
     </div>
 </section>
 

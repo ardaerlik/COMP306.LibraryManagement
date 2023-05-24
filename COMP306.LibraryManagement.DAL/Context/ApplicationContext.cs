@@ -201,6 +201,7 @@ public partial class ApplicationContext : DbContext
             entity.Property(e => e.PublicationTitle)
                 .HasMaxLength(500)
                 .HasComment("PublicationTitle");
+            entity.Property(e => e.Rating).HasColumnType("int(11)");
             entity.Property(e => e.Title).HasMaxLength(500);
             entity.Property(e => e.Volume).HasColumnType("int(11)");
 
