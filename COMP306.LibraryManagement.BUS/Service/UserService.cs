@@ -150,6 +150,73 @@ namespace COMP306.LibraryManagement.BUS.Service
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<ResponseModel> ChangePassword(ChangePasswordModel model, int userId)
+        {
+            try
+            {
+                var user = await (from u in _context.AppUsers
+                                  where u.Id == userId
+                                  select u).FirstAsync();
+
+                if (user.Password != model.currentPassword)
+                {
+                    return new()
+                    {
+                        Data = "Your current password is wrong. It is not changed",
+                        HasError = false
+                    };
+                }
+
+                if (model.newPassword != model.newPasswordAgain)
+                {
+                    return new()
+                    {
+                        Data = "Your new password is not matched. It is not changed",
+                        HasError = false
+                    };
+                }
+
+                if (model.newPassword == user.Password)
+                {
+                    return new()
+                    {
+                        Data = "Your new password is same with current password. It is not changed",
+                        HasError = false
+                    };
+                }
+
+                user.Password = model.newPassword;
+
+                _context.AppUsers.Update(user);
+                await _context.SaveChangesAsync();
+
+                return new()
+                {
+                    Data = "Your new password is updated.",
+                    HasError = false
+                };
+            }
+            catch (Exception ex)
+            {
+                return new()
+                {
+                    HasError = true,
+                    ExceptionMessage = ex.Message
+                };
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public ViewBagModel CreateViewBagModel(int userId)
         {
             var user = (from u in _context.AppUsers
@@ -165,7 +232,7 @@ namespace COMP306.LibraryManagement.BUS.Service
 
             return data;
         }
-	}
+    }
 
     /// <summary>
     /// 
@@ -175,6 +242,7 @@ namespace COMP306.LibraryManagement.BUS.Service
         Task<bool> IsAuthorized(string email, int sectionId, int actionId);
         Task<ResponseModel> Register(RegisterModel model);
         Task<ResponseModel> Login(LoginModel model);
+        Task<ResponseModel> ChangePassword(ChangePasswordModel model, int userId);
         ViewBagModel CreateViewBagModel(int userId);
     }
 }

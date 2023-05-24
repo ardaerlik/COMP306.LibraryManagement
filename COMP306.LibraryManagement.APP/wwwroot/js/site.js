@@ -275,7 +275,6 @@ function CreatePieChart(_id, _url) {
         datatype: 'json',
         cache: false,
         success: function (_data) {
-            debugger;
             echarts.init(document.querySelector("#" + _id)).setOption({
                 tooltip: {
                     trigger: 'item'

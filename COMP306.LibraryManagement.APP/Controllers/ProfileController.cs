@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using COMP306.LibraryManagement.BUS.Service;
+using COMP306.LibraryManagement.COM.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace COMP306.LibraryManagement.APP.Controllers
@@ -30,6 +31,12 @@ namespace COMP306.LibraryManagement.APP.Controllers
                 return RedirectToAction("Index", "Login");
             else
                 return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel model)
+        {
+            return Json(await _userService.ChangePassword(model, Convert.ToInt32(HttpContext.User.Claims.First().Value)));
         }
     }
 }
