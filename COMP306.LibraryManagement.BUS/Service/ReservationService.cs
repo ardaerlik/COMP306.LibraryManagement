@@ -58,7 +58,7 @@ namespace COMP306.LibraryManagement.BUS.Service
                                  select new CalendarResource
                                  {
                                      name = (from type1 in _context.TluLocationtypes where type1.Id == tmp.Key select type1.Name).First(),
-                                     id = tmp.Key.ToString(),
+                                     id = (from type1 in _context.TluLocationtypes where type1.Id == tmp.Key select type1.Name).First(),
                                      expanded = true,
                                      children = (from child in tmp
                                                  select new Location
@@ -81,7 +81,7 @@ namespace COMP306.LibraryManagement.BUS.Service
                                   start = reservation.ReservationStartDate,
                                   end = reservation.ReservationEndDate,
                                   id = reservation.Id.ToString(),
-                                  resource = locationtype.Id.ToString(),
+                                  resource = location.Id.ToString(),
                                   text = $"{location.Name} : {user.Name.ToUpper()} {user.Surname.ToUpper()}",
                                   bubbleHtml = $"{location.Name} : {user.Name.ToUpper()} {user.Surname.ToUpper()} : {status.StatusName}"
                               }).ToList();
@@ -138,8 +138,11 @@ namespace COMP306.LibraryManagement.BUS.Service
                                            where Convert.ToBoolean(locationType.CanBeReserved) == true
                                             && location.Id == Convert.ToInt32(model.resource)
                                             && (status.Id != (int)ReservationStatusType.Rejected && status.Id != (int)ReservationStatusType.Deleted)
-                                            && reservation.ReservationEndDate >= model.end
-                                            && reservation.ReservationStartDate <= model.start
+                                            && (
+                                                (model.end > reservation.ReservationStartDate && model.start < reservation.ReservationStartDate)
+                                             || (model.start < reservation.ReservationEndDate && model.end > reservation.ReservationEndDate)
+                                             || (model.start >= reservation.ReservationStartDate && model.end <= reservation.ReservationEndDate)
+                                            )
                                            select reservation).Any();
 
                 if (!canMakeReservation)
@@ -175,7 +178,7 @@ namespace COMP306.LibraryManagement.BUS.Service
                                         start = reservation.ReservationStartDate,
                                         end = reservation.ReservationEndDate,
                                         id = reservation.Id.ToString(),
-                                        resource = locationtype.Id.ToString(),
+                                        resource = location.Id.ToString(),
                                         text = $"{location.Name} : {user.Name.ToUpper()} {user.Surname.ToUpper()}",
                                         bubbleHtml = $"{location.Name} : {user.Name.ToUpper()} {user.Surname.ToUpper()} : {status.StatusName}"
                                     }).FirstOrDefault();
@@ -219,6 +222,12 @@ namespace COMP306.LibraryManagement.BUS.Service
                     };
                 }
 
+                model.resource = string.IsNullOrEmpty(model.resource)
+                    ? (from reservation in _context.TftLocationreservations
+                       where reservation.Id == Convert.ToInt32(model.reservationId)
+                       select reservation.LocationId.ToString()).First()
+                    : model.resource;
+
                 var canUpdateReservation = !(from reservation in _context.TftLocationreservations
                                              join location in _context.TftLocations on reservation.LocationId equals location.Id
                                              join locationType in _context.TluLocationtypes on location.LocationTypeId equals locationType.Id
@@ -226,8 +235,12 @@ namespace COMP306.LibraryManagement.BUS.Service
                                              where Convert.ToBoolean(locationType.CanBeReserved) == true
                                               && location.Id == Convert.ToInt32(model.resource)
                                               && (status.Id != (int)ReservationStatusType.Rejected && status.Id != (int)ReservationStatusType.Deleted)
-                                              && reservation.ReservationEndDate >= model.end
-                                              && reservation.ReservationStartDate <= model.start
+                                              && (
+                                                    (model.end > reservation.ReservationStartDate && model.start < reservation.ReservationStartDate)
+                                                 || (model.start < reservation.ReservationEndDate && model.end > reservation.ReservationEndDate)
+                                                 || (model.start >= reservation.ReservationStartDate && model.end <= reservation.ReservationEndDate)
+                                             )
+                                             && reservation.Id != Convert.ToInt32(model.reservationId)
                                              select reservation).Any();
 
                 if (!canUpdateReservation)
@@ -262,7 +275,7 @@ namespace COMP306.LibraryManagement.BUS.Service
                                         start = reservation.ReservationStartDate,
                                         end = reservation.ReservationEndDate,
                                         id = reservation.Id.ToString(),
-                                        resource = locationtype.Id.ToString(),
+                                        resource = location.Id.ToString(),
                                         text = $"{location.Name} : {user.Name.ToUpper()} {user.Surname.ToUpper()}",
                                         bubbleHtml = $"{location.Name} : {user.Name.ToUpper()} {user.Surname.ToUpper()} : {status.StatusName}"
                                     }).FirstOrDefault();

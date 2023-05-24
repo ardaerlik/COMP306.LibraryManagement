@@ -18,66 +18,11 @@
         contextMenu: new DayPilot.Menu({
             items: [
                 {
-                    text: "Edit",
-                    onClick: (args) => {
-                        const postData = {
-                            start : args.newStart.value,
-                            end : args.newEnd.value,
-                            resource : args.newResource,
-                            email : _email,
-                            reservationId : args.e.data.id
-                        };
-            
-                        $.ajax({
-                            type: 'POST',
-                            url: _updateUrl,
-                            datatype: 'json',
-                            cache: false,
-                            data: JSON.stringify(postData),
-                            contentType: 'application/json; charset=UTF-8',
-                            success: function (_data) {
-                                if (_data.hasError == false && _data.data !== undefined && _data.data !== null) {
-                                    var oldEvent = scheduler.events.find(function(e) {
-                                        return e.id === args.e.data.id;
-                                    });
-            
-                                    if (oldEvent) {
-                                        dp.events.remove(oldEvent);
-            
-                                        dp.events.add({
-                                            start: new DayPilot.Date(_data.data.start),
-                                            end: new DayPilot.Date(_data.data.end),
-                                            id: _data.data.id,
-                                            resource: _data.data.resource,
-                                            text: _data.data.text,
-                                            bubbleHtml: _data.data.bubbleHtml,
-                                        });
-            
-                                        dp.update();
-                                        dp.message("Reservation is been updated for " + _data.data.start + " " + _data.data.end + ".");
-                                    }
-                                    else {
-                                        dp.message("Reservation cannot been updated for " + _data.data.start + " " + _data.data.end + ".");
-                                    }
-                                }
-                                else {
-                                    dp.message(_data.ExceptionMessage);
-                                    console.error("error: ", _data.ExceptionMessage);
-                                }
-                            },
-                            error: function (xhr, errorType, exception) {
-                                dp.message("error: " + xhr + " " + errorType + " " + exception);
-                                console.error("error: ", xhr, " ", errorType, " ", exception);
-                            }
-                        });
-                    }
-                },
-                {
                     text: "Delete",
                     onClick: (args) => {
                         const postData = {
                             email : _email,
-                            reservationId : args.e.data.id
+                            reservationId : args.source.data.id
                         };
             
                         $.ajax({
@@ -90,17 +35,16 @@
                             success: function (_data) {
                                 if (_data.hasError == false && _data.data !== undefined && _data.data !== null) {
                                     if (_data.data.reservationStatus === 6) {
-                                        dp.events.remove(args.source);
-                                        dp.update();
-                                        dp.message("Reservation is been deleteds for " + _data.data.start + " " + _data.data.end + ".");
+                                        dp.message("Reservation is been deleted for " + _data.data.reservationId + ".");
                                     }
                                     else {
-                                        dp.message("Reservation cannot been deleted for " + _data.data.start + " " + _data.data.end + ".");
+                                        dp.message("Reservation cannot been deleted for " + _data.data.reservationId + ".");
                                     }
+                                    app.loadData();
                                 }
                                 else {
-                                    dp.message(_data.ExceptionMessage);
-                                    console.error("error: ", _data.ExceptionMessage);
+                                    dp.message(_data.exceptionMessage);
+                                    console.error("error: ", _data.exceptionMessage);
                                 }
                             },
                             error: function (xhr, errorType, exception) {
@@ -110,13 +54,7 @@
                         });
                     }
                 },
-                { text: "-" },
-                {
-                    text: "Select",
-                    onClick: (args) => {
-                        dp.multiselect.add(args.source);
-                    }
-                }
+                { text: "-" }
             ]
         }),
         onEventMoved: (args) => {
@@ -137,33 +75,13 @@
                 contentType: 'application/json; charset=UTF-8',
                 success: function (_data) {
                     if (_data.hasError == false && _data.data !== undefined && _data.data !== null) {
-                        var oldEvent = scheduler.events.find(function(e) {
-                            return e.id === args.e.data.id;
-                        });
-
-                        if (oldEvent) {
-                            dp.events.remove(oldEvent);
-
-                            dp.events.add({
-                                start: new DayPilot.Date(_data.data.start),
-                                end: new DayPilot.Date(_data.data.end),
-                                id: _data.data.id,
-                                resource: _data.data.resource,
-                                text: _data.data.text,
-                                bubbleHtml: _data.data.bubbleHtml,
-                            });
-
-                            dp.update();
-                            dp.message("Reservation is been updated for " + _data.data.start + " " + _data.data.end + ".");
-                        }
-                        else {
-                            dp.message("Reservation cannot been updated for " + _data.data.start + " " + _data.data.end + ".");
-                        }
+                        dp.message("Reservation cannot been updated with " + _data.data.start + " " + _data.data.end + ".");
                     }
                     else {
-                        dp.message(_data.ExceptionMessage);
-                        console.error("error: ", _data.ExceptionMessage);
+                        dp.message(_data.exceptionMessage);
+                        console.error("error: ", _data.exceptionMessage);
                     }
+                    app.loadData();
                 },
                 error: function (xhr, errorType, exception) {
                     dp.message("error: " + xhr + " " + errorType + " " + exception);
@@ -192,33 +110,13 @@
                 contentType: 'application/json; charset=UTF-8',
                 success: function (_data) {
                     if (_data.hasError == false && _data.data !== undefined && _data.data !== null) {
-                        var oldEvent = scheduler.events.find(function(e) {
-                            return e.id === args.e.data.id;
-                        });
-
-                        if (oldEvent) {
-                            dp.events.remove(oldEvent);
-
-                            dp.events.add({
-                                start: new DayPilot.Date(_data.data.start),
-                                end: new DayPilot.Date(_data.data.end),
-                                id: _data.data.id,
-                                resource: _data.data.resource,
-                                text: _data.data.text,
-                                bubbleHtml: _data.data.bubbleHtml,
-                            });
-
-                            dp.update();
-                            dp.message("Reservation is been updated for " + _data.data.start + " " + _data.data.end + ".");
-                        }
-                        else {
-                            dp.message("Reservation cannot been updated for " + _data.data.start + " " + _data.data.end + ".");
-                        }
+                        dp.message("Reservation is been updated for " + _data.data.start + " " + _data.data.end + ".");
                     }
                     else {
-                        dp.message(_data.ExceptionMessage);
-                        console.error("error: ", _data.ExceptionMessage);
+                        dp.message(_data.exceptionMessage);
+                        console.error("error: ", _data.exceptionMessage);
                     }
+                    app.loadData();
                 },
                 error: function (xhr, errorType, exception) {
                     dp.message("error: " + xhr + " " + errorType + " " + exception);
@@ -232,14 +130,12 @@
             if (modal.canceled) {
                 return;
             }
-            console.log(args);
             const postData = {
                 start: args.start.value,
                 end: args.end.value,
                 resource: args.resource,
                 email: modal.result
             };
-            console.log(postData);
 
             $.ajax({
                 type: 'POST',
@@ -250,21 +146,13 @@
                 contentType: 'application/json; charset=UTF-8',
                 success: function (_data) {
                     if (_data.hasError == false && _data.data !== undefined && _data.data !== null) {
-                        dp.events.add({
-                            start: new DayPilot.Date(_data.data.start),
-                            end: new DayPilot.Date(_data.data.end),
-                            id: _data.data.id,
-                            resource: _data.data.resource,
-                            text: _data.data.text,
-                            bubbleHtml: _data.data.bubbleHtml,
-                        });
-                        dp.update();
                         dp.message("Reservation is been created for " + _data.data.start + " " + _data.data.end + ".");
                     }
                     else {
-                        dp.message(_data.ExceptionMessage);
-                        console.error("error: ", _data.ExceptionMessage);
+                        dp.message(_data.exceptionMessage);
+                        console.error("error: ", _data.exceptionMessage);
                     }
+                    app.loadData();
                 },
                 error: function (xhr, errorType, exception) {
                     dp.message("error: " + xhr + " " + errorType + " " + exception);
@@ -290,33 +178,13 @@
                 contentType: 'application/json; charset=UTF-8',
                 success: function (_data) {
                     if (_data.hasError == false && _data.data !== undefined && _data.data !== null) {
-                        var oldEvent = scheduler.events.find(function(e) {
-                            return e.id === args.e.data.id;
-                        });
-
-                        if (oldEvent) {
-                            dp.events.remove(oldEvent);
-
-                            dp.events.add({
-                                start: new DayPilot.Date(_data.data.start),
-                                end: new DayPilot.Date(_data.data.end),
-                                id: _data.data.id,
-                                resource: _data.data.resource,
-                                text: _data.data.text,
-                                bubbleHtml: _data.data.bubbleHtml,
-                            });
-
-                            dp.update();
-                            dp.message("Reservation is been updated for " + _data.data.start + " " + _data.data.end + ".");
-                        }
-                        else {
-                            dp.message("Reservation cannot been updated for " + _data.data.start + " " + _data.data.end + ".");
-                        }
+                        dp.message("Reservation is been updated for " + _data.data.start + " " + _data.data.end + ".");
                     }
                     else {
-                        dp.message(_data.ExceptionMessage);
-                        console.error("error: ", _data.ExceptionMessage);
+                        dp.message(_data.exceptionMessage);
+                        console.error("error: ", _data.exceptionMessage);
                     }
+                    app.loadData();
                 },
                 error: function (xhr, errorType, exception) {
                     dp.message("error: " + xhr + " " + errorType + " " + exception);
@@ -348,6 +216,7 @@
 
             $.ajax({
                 type: 'POST',
+                async: true,
                 url: _listUrl,
                 datatype: 'json',
                 cache: false,
