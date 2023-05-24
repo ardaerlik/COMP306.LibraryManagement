@@ -1,5 +1,8 @@
 ﻿using COMP306.LibraryManagement.BUS.Service;
 using COMP306.LibraryManagement.DAL.Context;
+using COMP306.LibraryManagement.DAL.Entity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,20 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 {
     options.UseMySQL(builder.Configuration.GetConnectionString("MySql") ?? string.Empty);
 });
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "YourCookieName";
+        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.SlidingExpiration = true;
+    });
 
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
@@ -28,6 +45,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
