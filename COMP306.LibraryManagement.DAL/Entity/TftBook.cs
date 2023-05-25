@@ -38,6 +38,10 @@ public partial class TftBook
     public DateTime AddedDate { get; set; }
 
     public int? Rating { get; set; }
+  
+    public virtual TluLanguage Language { get; set; } = null!;
+
+    public int? Rating { get; set; }
 
     public virtual TluLanguage Language { get; set; } = null!;
 

@@ -33,6 +33,15 @@ namespace COMP306.LibraryManagement.BUS.Service
 			return data;
 		}
 
+        public IEnumerable<TftBook> ListNewComerBooks()
+        {
+            var data = _context.TftBooks
+                               .OrderByDescending(book => book.AddedDate)
+                               .Take(6)
+                               .ToList();
+            return data;
+        }
+
 		public TftBook GetBestRankedBook()
 		{
             var bestRankedBook = _context.TftBooks.OrderByDescending(t => t.Rating).FirstOrDefault();
@@ -41,10 +50,13 @@ namespace COMP306.LibraryManagement.BUS.Service
         }
     }
 
-	public interface IBookService
+
+
+    public interface IBookService
 	{
 		IEnumerable<TftBook> List();
 		IEnumerable<PieChartModel> ListBooksSubjectsPercentage();
+		IEnumerable<TftBook> ListNewComerBooks();
 		TftBook GetBestRankedBook();
     }
 }

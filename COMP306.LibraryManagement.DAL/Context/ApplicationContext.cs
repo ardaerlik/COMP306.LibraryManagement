@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using COMP306.LibraryManagement.DAL.Entity;
 using Microsoft.EntityFrameworkCore;
@@ -199,6 +199,10 @@ public partial class ApplicationContext : DbContext
                 .HasColumnName("publicationDate");
             entity.Property(e => e.PublicationTitle)
                 .HasMaxLength(500)
+                .HasComment("PublicationTitle");
+            entity.Property(e => e.Rating).HasColumnType("int(11)");
+            entity.Property(e => e.Title).HasMaxLength(500);
+            entity.Property(e => e.Volume).HasColumnType("int(11)");
                 .HasComment("PublicationTitle");
             entity.Property(e => e.Rating).HasColumnType("int(11)");
             entity.Property(e => e.Title).HasMaxLength(500);
