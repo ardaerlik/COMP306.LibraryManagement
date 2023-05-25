@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
     "use strict";
 
     const select = (el, all = false) => {
@@ -361,4 +361,452 @@ function CreateReportChart(_id) {
             },
         }
     }).render();
+}
+
+function findBook(_id, _url) {
+    var selectedCheckboxes = document.querySelectorAll("input[type=checkbox]:checked");
+    // Create an array to store the selected checkbox values
+    var selectedValues = {
+        "content": [],
+        "subject": [],
+        "author": [],
+        "language": []
+    };
+    // Iterate over the selected checkboxes
+    for (var i = 0; i < selectedCheckboxes.length; i++) {
+        // Add the value of each selected checkbox to the array
+        var identifier = selectedCheckboxes[i].id.split("=")[0];
+        value = selectedCheckboxes[i].id.split("=")[1];
+
+        if (identifier === "contentType") {
+            selectedValues["content"].push(value);
+        }
+        else if (identifier === "subjectTerm") {
+            selectedValues["subject"].push(value);
+        }
+        else if (identifier === "author") {
+            selectedValues["author"].push(value);
+        }
+        else if (identifier === "language") {
+            selectedValues["language"].push(value);
+        }
+    }
+
+    var searchInput = document.querySelector("#search-input").value.trim();
+    var startDateValue = document.querySelector("#start-date").value;
+    var endDateValue = document.querySelector("#end-date").value;
+
+    var requestData = {
+        keyword: searchInput,
+        startDate: startDateValue,
+        endDate: endDateValue,
+        content: selectedValues["content"],
+        subject: selectedValues["subject"],
+        author: selectedValues["author"],
+        language: selectedValues["language"]
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: _url,
+        datatype: 'json',
+        data: JSON.stringify(requestData),
+        contentType: 'application/json; charset=UTF-8',
+        cache: false,
+        success: function (_data) {
+            var listGroup = document.querySelector("#" + _id);
+            listGroup.innerHTML = "";
+
+            _data.forEach(function (item) {
+                var listItem = document.createElement("li");
+                listItem.classList.add("list-group-item");
+
+                var title = document.createElement("h3");
+                title.textContent = "Title: " + item.title;
+
+                var author = document.createElement("p");
+                author.textContent = "Authors: " + item.authors[0];
+
+                var publicationDate = document.createElement("p");
+                publicationDate.textContent = "Publication: " + item.publicationDate;
+
+                var content = document.createElement("p");
+                content.textContent = "Contents: " + item.contents[0];
+
+
+                listItem.appendChild(title);
+                listItem.appendChild(author);
+                listItem.appendChild(publicationDate);
+                listItem.appendChild(content);
+
+                listGroup.appendChild(listItem);
+
+            });
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
+
+function getContents(_id, _url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var listGroup = document.querySelector("#" + _id);
+            listGroup.innerHTML = "";
+
+            i = 0;
+            _data.forEach(function (item) {
+
+                inputItem = document.createElement("input");
+                inputItem.classList.add("form-check-input");
+                inputItem.setAttribute("type", "checkbox");
+                inputItem.setAttribute("id", "contentType=" + item.id);
+
+                labelItem = document.createElement("label");
+                labelItem.textContent = item.name;
+                labelItem.classList.add("form-check-label")
+                labelItem.setAttribute("for", "contentType=" + item.id);
+
+                brItem = document.createElement("br");
+
+                i++;
+
+                listGroup.appendChild(inputItem);
+                listGroup.appendChild(labelItem);
+                listGroup.appendChild(brItem);
+
+            });
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
+
+function getSubjects(_id, _url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var listGroup = document.querySelector("#" + _id);
+            listGroup.innerHTML = "";
+
+            i = 0;
+            _data.forEach(function (item) {
+
+                inputItem = document.createElement("input");
+                inputItem.classList.add("form-check-input");
+                inputItem.setAttribute("type", "checkbox");
+                inputItem.setAttribute("id", "subjectTerm=" + item.id);
+
+                labelItem = document.createElement("label");
+                labelItem.textContent = item.name;
+                labelItem.classList.add("form-check-label")
+                labelItem.setAttribute("for", "subjectTerm=" + item.id);
+
+                brItem = document.createElement("br");
+
+                i++;
+
+                listGroup.appendChild(inputItem);
+                listGroup.appendChild(labelItem);
+                listGroup.appendChild(brItem);
+
+            });
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
+
+
+function getLanguages(_id, _url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var listGroup = document.querySelector("#" + _id);
+            listGroup.innerHTML = "";
+
+            i = 0;
+            _data.forEach(function (item) {
+
+                inputItem = document.createElement("input");
+                inputItem.classList.add("form-check-input");
+                inputItem.setAttribute("type", "checkbox");
+                inputItem.setAttribute("id", "language=" + item.id);
+
+                labelItem = document.createElement("label");
+                labelItem.textContent = item.name;
+                labelItem.classList.add("form-check-label")
+                labelItem.setAttribute("for", "language=" + item.id);
+
+                brItem = document.createElement("br");
+
+                i++;
+
+                listGroup.appendChild(inputItem);
+                listGroup.appendChild(labelItem);
+                listGroup.appendChild(brItem);
+
+            });
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
+
+
+function getAuthors(_id, _url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var listGroup = document.querySelector("#" + _id);
+            listGroup.innerHTML = "";
+
+            i = 0;
+            _data.forEach(function (item) {
+
+                inputItem = document.createElement("input");
+                inputItem.classList.add("form-check-input");
+                inputItem.setAttribute("type", "checkbox");
+                inputItem.setAttribute("id", "author=" + item.id);
+
+                labelItem = document.createElement("label");
+                labelItem.textContent = item.name + " " + item.surname;
+                labelItem.classList.add("form-check-label")
+                labelItem.setAttribute("for", "author=" + item.id);
+
+                brItem = document.createElement("br");
+
+                i++;
+
+                listGroup.appendChild(inputItem);
+                listGroup.appendChild(labelItem);
+                listGroup.appendChild(brItem);
+
+            });
+            listGroup.classList.add("vertical-scrollable");
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
+
+function getInitialBooks(_id, _url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var listGroup = document.querySelector("#" + _id);
+            listGroup.innerHTML = "";
+
+            _data.forEach(function (item) {
+                var listItem = document.createElement("li");
+                listItem.classList.add("list-group-item");
+
+                var title = document.createElement("h3");
+                title.textContent = "Title: " + item.title;
+
+                var author = document.createElement("p");
+                author.textContent = "Authors: " + item.authors[0];
+
+                var publicationDate = document.createElement("p");
+                publicationDate.textContent = "Publication: " + item.publicationDate;
+
+                var content = document.createElement("p");
+                content.textContent = "Contents: " + item.contents[0];
+
+
+                listItem.appendChild(title);
+                listItem.appendChild(author);
+                listItem.appendChild(publicationDate);
+                listItem.appendChild(content);
+
+                listGroup.appendChild(listItem);
+
+            });
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
+
+function UpdateBestRankedBook(_id, _url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var bookElement = document.querySelector('#' + _id + ' h6');
+            var ratingElement = document.querySelector('#' + _id + ' span');
+
+            bookElement.innerHTML = _data.title;
+            ratingElement.innerHTML = "Rating : " + _data.rating;
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
+
+
+function LoadNewComerBooks(_id, _url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var activityDiv = $("#" + _id).find(".activity");
+            activityDiv.empty();
+
+            _data.forEach(function (book) {
+                var date = moment(book.addedDate);
+                var now = moment();
+                var addTimeAgo = moment.duration(now.diff(date)).humanize() + ' ago';
+
+                var item = '<div class="activity-item d-flex">' +
+                    '<div class="activite-label">' + addTimeAgo + '</div>' +
+                    '<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>' +
+                    '<div class="activity-content">' + book.title +
+                    '</div></div>';
+                activityDiv.append(item);
+            });
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
+
+function UpdateRecentReservations(_url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        cache: false,
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            $(".datatable tbody").empty();
+            data.forEach(function (row) {
+                let statusBadge;
+                switch (row.status) {
+                    case 1:
+                        statusBadge = '<span class="badge bg-warning">Pending</span>';
+                        break;
+                    case 2:
+                        statusBadge = '<span class="badge bg-success">Approved</span>';
+                        break;
+                    case 3:
+                        statusBadge = '<span class="badge bg-danger">Rejected</span>';
+                        break;
+                    case 4:
+                        statusBadge = '<span class="badge bg-warning">Not Enough Quota</span>';
+                        break;
+                    case 5:
+                        statusBadge = '<span class="badge bg-dark">Past Time</span>';
+                        break;
+                    case 6:
+                        statusBadge = '<span class="badge bg-warning">Deleted</span>';
+                        break;
+                }
+
+                let newRow = '<tr>' +
+                    '<th scope="row"><a href="#">#' + row.id + '</a></th>' +
+                    '<td>' + row.userName + '</td>' +
+                    '<td><a href="#" class="text-primary">' + row.roomName + '</a></td>' +
+                    '<td>' + row.createdTime + '</td>' +
+                    '<td>' + statusBadge + '</td>' +
+                    '</tr>';
+                $(".datatable tbody").append(newRow);
+            });
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
+}
+
+function UpdateUserStatistics(userCountUrl, userIncreaseRateUrl) {
+    $.ajax({
+        type: 'GET',
+        url: userCountUrl,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            $("#total-users").text(_data);
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: userIncreaseRateUrl,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var rate = (Math.abs(_data) * 100).toFixed(2);
+            var label = _data > 0 ? "increase" : "decrease";
+            $("#user-increase-rate").text(rate + "%");
+            $("#user-increase-rate").addClass(_data > 0 ? "text-success" : "text-danger");
+            $("#increase-decrease-label").text(label);
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
+
+function UpdateRoomResStats(resCountUrl, resRateUrl) {
+    $.ajax({
+        type: 'GET',
+        url: resCountUrl,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            $("#reservation-count").text(_data);
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: resRateUrl,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var rate = (Math.abs(_data) * 100).toFixed(2);
+            var label = _data > 0 ? "increase" : "decrease";
+            $("#reservation-rate").text(rate + "%");
+            $("#reservation-rate").addClass(_data > 0 ? "text-success" : "text-danger");
+            $("#reservation-label").text(label);
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
 }

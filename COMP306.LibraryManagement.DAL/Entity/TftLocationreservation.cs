@@ -23,5 +23,7 @@ public partial class TftLocationreservation
 
     public virtual TftLocation Location { get; set; } = null!;
 
+    public virtual TluReservationstatus ReservationStatusNavigation { get; set; } = null!;
+
     public virtual AppUser User { get; set; } = null!;
 }

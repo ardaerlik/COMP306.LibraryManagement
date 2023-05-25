@@ -21,7 +21,141 @@
 </div>
 
 <section class="section">
+    <!-- Input search bar-->
+    <div id="input-section">
+        <div class="row">
+            <div class="input-box">
+                <input type="text" class="form-control" id="search-input">
+                <!-- <input type="text" name="email" class="form-control" id="yourEmail" required> -->
+                <i class="fade fa-search"></i>
+                <button id="search-submit-button">Submit</button>
+                <script>
+                    document.querySelector("#search-submit-button").addEventListener("click", () => {
+                        findBook("result-section", "@Url.Action("BookListTry", "Collections")");
+                    }); // Ask to Arda?
+                    document.addEventListener("DOMContentLoaded", () => {
+                        getInitialBooks("result-section", "@Url.Action("BookList", "Collections")");
+                    });
+                    document.addEventListener("DOMContentLoaded", () => {
+                        getContents("content-type-collapse", "@Url.Action("ContentsList", "Collections")");
+                    });
+                    document.addEventListener("DOMContentLoaded", () => {
+                        getSubjects("subject-term-collapse", "@Url.Action("SubjectsList", "Collections")");
+                    });
+                    document.addEventListener("DOMContentLoaded", () => {
+                        getLanguages("language-collapse", "@Url.Action("LanguagesList", "Collections")");
+                    });
+                    document.addEventListener("DOMContentLoaded", () => {
+                        getAuthors("author-collapse", "@Url.Action("AuthorsList", "Collections")");
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
     <div class="row">
-
+        <!-- Side bar Section-->
+        <div class="col-4" id="sidebar-section">
+            <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+                <ul class="list-unstyled ps-0">
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#content-type-collapse" aria-expanded="true">
+                            Content Type
+                        </button>
+                        <div class="collapse show form-check scrollable-collections" id="content-type-collapse">
+                            <input class="form-check-input" type="checkbox" value="" id="contentType1">
+                            <label class="form-check-label" for="contentType1">
+                                Content Type1
+                            </label><br>
+                            <input class="form-check-input" type="checkbox" value="" id="contentType2">
+                            <label class="form-check-label" for="contentType2">
+                                Content Type2
+                            </label>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#publication-date-collapse" aria-expanded="false">
+                            Publication Date
+                        </button>
+                        <div class="collapse form-group" id="publication-date-collapse">
+                            <label class="form-control-label" for="start-date">
+                                Start Date
+                            </label>
+                            <input type="text" class="form-control" id="start-date" placeholder="DD/MM/YYYY">
+                            <label class="form-control-label" for="start-date">
+                                End Date
+                            </label>
+                            <input type="text" class="form-control" id="end-date" placeholder="DD/MM/YYYY">
+                        </div>                                  
+                    </li>           
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#subject-term-collapse" aria-expanded="false">
+                            Subject Terms
+                        </button>
+                        <div class="collapse show form-check scrollable-collections" id="subject-term-collapse">
+                            <input class="form-check-input" type="checkbox" value="" id="subjectTerm1">
+                            <label class="form-check-label" for="subjectTerm1">
+                                Subject Term1
+                            </label><br>
+                            <input class="form-check-input" type="checkbox" value="" id="subjectTerm2">
+                            <label class="form-check-label" for="subjectTerm2">
+                                Subject Term2
+                            </label>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#author-collapse" aria-expanded="false">
+                            Author
+                        </button>
+                        <div class="collapse form-check scrollable-collections" id="author-collapse">
+                            <input class="form-check-input" type="checkbox" value="" id="author1">
+                            <label class="form-check-label" for="aurhor1">
+                                Author1
+                            </label><br>
+                            <input class="form-check-input" type="checkbox" value="" id="subjectTerm2">
+                            <label class="form-check-label" for="subjectTerm2">
+                                Author2
+                            </label>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#language-collapse" aria-expanded="false">
+                            Langauage
+                        </button>
+                        <div class="collapse form-check scrollable-collections" id="language-collapse">
+                            <input class="form-check-input" type="checkbox" value="" id="language1">
+                            <label class="form-check-label" for="language1">
+                                Language1
+                            </label><br>
+                            <input class="form-check-input" type="checkbox" value="" id="language2">
+                            <label class="form-check-label" for="language2">
+                                Language2
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- Result Section-->
+        <div class="col-8" id="result-section">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="">
+                        <h3>The Book Title</h3>
+                        <p>The Author</p>
+                        <p>Publication Date</p>
+                        <p>The Content Type </p>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="">
+                        <h3>The Book Title</h3>
+                        <p>The Author</p>
+                        <p>Publication Date</p>
+                        <p>The Content Type </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div id="myTraffic" style="min-height: 400px;" class="echart"></div>
     </div>
 </section>

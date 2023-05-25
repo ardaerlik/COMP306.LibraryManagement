@@ -31,11 +31,16 @@
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                     <i class="bi bi-cart"></i>
                                 </div>
-                                <div class="ps-3">
-                                    <h6>46</h6>
-                                    <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                                <div class="ps-3" >
+                                    <h6 id="reservation-count"></h6>
+                                    <span class="text-success small pt-1 fw-bold" id="reservation-rate"></span> <span class="text-muted small pt-2 ps-1" id="reservation-label"></span>
                                 </div>
                             </div>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    UpdateRoomResStats("@Url.Action("GetRoomReservationCount", "Home")", "@Url.Action("GetRoomReservationRate", "Home")");
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -49,10 +54,14 @@
                                     <i class="bi bi-people"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>1244</h6>
-                                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                                    <h6 id="total-users"></h6>
+                                    <span class="text-danger small pt-1 fw-bold" id="user-increase-rate"></span> <span class="text-muted small pt-2 ps-1" id="increase-decrease-label"></span>
                                 </div>
                             </div>
+                            <script>document.addEventListener("DOMContentLoaded", () => {
+                                        UpdateUserStatistics("@Url.Action("GetTotalUsers", "Home")",
+                                            "@Url.Action("GetUserIncreaseRate", "Home")");
+                                });</script>
                         </div>
                     </div>
                 </div>
@@ -65,10 +74,15 @@
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                     <i class="bi bi-book"></i>
                                 </div>
-                                <div class="ps-3">
+                                <div id="best_book_text" class="ps-3">
                                     <h6>A Book</h6>
                                     <span class="text-muted small pt-2 ps-1">Author</span>
                                 </div>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        UpdateBestRankedBook("best_book_text", "@Url.Action("GetBestRankedBook", "Home")");
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -102,42 +116,20 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row"><a href="#">#2457</a></th>
+                                        <th scope="row"><a href="#">#100</a></th>
                                         <td>Brandon Jacob</td>
                                         <td><a href="#" class="text-primary">At praesentium minu</a></td>
                                         <td>11.01.2022</td>
                                         <td><span class="badge bg-success">Approved</span></td>
                                     </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#">#2147</a></th>
-                                        <td>Bridie Kessler</td>
-                                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                                        <td>11.01.2022</td>
-                                        <td><span class="badge bg-warning">Pending</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#">#2049</a></th>
-                                        <td>Ashleigh Langosh</td>
-                                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                                        <td>11.01.2022</td>
-                                        <td><span class="badge bg-success">Approved</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#">#2644</a></th>
-                                        <td>Angus Grady</td>
-                                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                                        <td>11.01.2022</td>
-                                        <td><span class="badge bg-danger">Rejected</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><a href="#">#2644</a></th>
-                                        <td>Raheem Lehner</td>
-                                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                                        <td>11.01.2022</td>
-                                        <td><span class="badge bg-success">Approved</span></td>
-                                    </tr>
+                             
                                 </tbody>
                             </table>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    UpdateRecentReservations("@Url.Action("GetRecentReservations", "Home")");
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -146,7 +138,7 @@
 
         <div class="col-lg-4">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" id="newcomer">
                     <h5 class="card-title">New Comers <span>| Books</span></h5>
                     <div class="activity">
                         <div class="activity-item d-flex">
@@ -193,12 +185,18 @@
                         </div>
                     </div>
                 </div>
+                <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            LoadNewComerBooks("newcomer", "@Url.Action("ListNewComerBooks", "Home")");
+                        });
+                </script>
             </div>
 
             <div class="card">
                 <div class="card-body pb-0">
                     <h5 class="card-title">Book Subjects <span>| Today</span></h5>
                     <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+                    ￼
                     <script>
                         document.addEventListener("DOMContentLoaded", () => {
                             CreatePieChart("trafficChart", "@Url.Action("ListBooksSubjectsPercentage", "Home")");
@@ -209,4 +207,6 @@
         </div>
     </div>
 </section>
+
+
 

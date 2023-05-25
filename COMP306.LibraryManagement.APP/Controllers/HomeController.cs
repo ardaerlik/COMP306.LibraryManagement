@@ -45,6 +45,41 @@ public class HomeController : Controller
         return Json(_bookService.ListBooksSubjectsPercentage());
     }
 
+    public IActionResult GetRecentReservations()
+    {
+        return Json(_bookService.GetRecentReservations());
+    }
+
+    public IActionResult GetRoomReservationCount()
+    {
+        return Json(_bookService.GetRoomReservationCount());
+    }
+
+    public IActionResult GetRoomReservationRate()
+    {
+        return Json(_bookService.GetRoomReservationRate());
+    }
+    
+    public IActionResult GetTotalUsers()
+    {
+        return Json(_bookService.GetTotalUsers());
+    }
+
+    public IActionResult GetUserIncreaseRate()
+    {
+        return Json(_bookService.GetUserIncreaseRate());
+    }
+    
+    public IActionResult ListNewComerBooks()
+    {
+        return Json(_bookService.ListNewComerBooks());
+    }
+    
+    public IActionResult GetBestRankedBook()
+    {
+        return Json(_bookService.GetBestRankedBook());
+    }
+
     public IActionResult Privacy()
     {
         return View();
