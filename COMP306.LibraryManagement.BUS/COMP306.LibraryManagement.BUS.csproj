@@ -14,7 +14,6 @@
   <ItemGroup>
     <Folder Include="Service\" />
     <Folder Include="Dto\" />
-    <Folder Include="Model\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.EntityFrameworkCore, Version=7.0.5.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" />
