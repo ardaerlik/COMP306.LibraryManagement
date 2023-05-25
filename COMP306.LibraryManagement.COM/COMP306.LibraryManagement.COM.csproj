@@ -12,6 +12,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Enum\" />
-    <Folder Include="Model\" />
   </ItemGroup>
 </Project>
