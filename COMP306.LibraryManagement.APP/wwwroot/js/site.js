@@ -362,3 +362,24 @@ function CreateReportChart(_id) {
         }
     }).render();
 }
+
+
+
+function UpdateBestRankedBook(_id, _url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var bookElement = document.querySelector('#' + _id + ' h6');
+            var ratingElement = document.querySelector('#' + _id + ' span');
+
+            bookElement.innerHTML = _data.title;
+            ratingElement.innerHTML = "Rating : " + _data.rating;
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
