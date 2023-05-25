@@ -32,7 +32,6 @@ namespace COMP306.LibraryManagement.BUS.Service
 
 			return data;
 		}
-
         public int GetRoomReservationCount()
         {
             var currentDate = DateTime.Now;
@@ -58,7 +57,46 @@ namespace COMP306.LibraryManagement.BUS.Service
         }
 
     }
+    
+        public int GetTotalUsers()
+        {
+            return _context.AppUsers.Count();
+        }
 
+
+        public double GetUserIncreaseRate()
+        {
+            var currentDate = DateTime.Now;
+            var startOfCurrentYear = new DateTime(currentDate.Year, 1, 1);
+            var startOfLastYear = startOfCurrentYear.AddYears(-1);
+
+            var usersThisYear = _context.AppUsers.Count(user => user.RegisteredDate >= startOfCurrentYear);
+            var usersLastYear = _context.AppUsers.Count(user => user.RegisteredDate >= startOfLastYear && user.RegisteredDate < startOfCurrentYear);
+
+            if (usersLastYear == 0)
+            {
+                return usersThisYear > 0 ? 1.0 : 0.0;
+            }
+
+            return (double)(usersThisYear - usersLastYear) / usersLastYear;
+        }
+        
+        public IEnumerable<TftBook> ListNewComerBooks()
+        {
+            var data = _context.TftBooks
+                               .OrderByDescending(book => book.AddedDate)
+                               .Take(6)
+                               .ToList();
+            return data;
+        }
+
+		public TftBook GetBestRankedBook()
+		{
+            var bestRankedBook = _context.TftBooks.OrderByDescending(t => t.Rating).FirstOrDefault();
+
+            return bestRankedBook ?? new();
+        }
+    }
 
     public interface IBookService
 	{
@@ -66,6 +104,8 @@ namespace COMP306.LibraryManagement.BUS.Service
 		IEnumerable<PieChartModel> ListBooksSubjectsPercentage();
 		int GetRoomReservationCount();
 		double GetRoomReservationRate();
+		IEnumerable<TftBook> ListNewComerBooks();
+		TftBook GetBestRankedBook();
     }
 }
 
