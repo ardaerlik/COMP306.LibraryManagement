@@ -32,6 +32,31 @@ namespace COMP306.LibraryManagement.BUS.Service
 
 			return data;
 		}
+        public int GetRoomReservationCount()
+        {
+            var currentDate = DateTime.Now;
+            var data = _context.TftLocationreservations.Count(res => res.ReservationStartDate.Day == currentDate.Day);
+
+			return data;
+		}
+
+		public double GetRoomReservationRate()
+		{
+			var currentDate = DateTime.Now;
+			var yesterday = currentDate.AddDays(-1);
+
+			var reservationsToday = _context.TftLocationreservations.Count(res => res.ReservationStartDate.Day == currentDate.Day);
+			var reservationsYesterday = _context.TftLocationreservations.Count(res => res.ReservationStartDate.Day == yesterday.Day);
+
+            if (reservationsYesterday == 0)
+            {
+                return reservationsToday > 0 ? 1.0 : 0.0;
+            }
+
+			return (double) (reservationsToday - reservationsYesterday) / reservationsYesterday;
+        }
+
+    }
     
         public int GetTotalUsers()
         {
@@ -77,6 +102,8 @@ namespace COMP306.LibraryManagement.BUS.Service
 	{
 		IEnumerable<TftBook> List();
 		IEnumerable<PieChartModel> ListBooksSubjectsPercentage();
+		int GetRoomReservationCount();
+		double GetRoomReservationRate();
 		IEnumerable<TftBook> ListNewComerBooks();
 		TftBook GetBestRankedBook();
     }

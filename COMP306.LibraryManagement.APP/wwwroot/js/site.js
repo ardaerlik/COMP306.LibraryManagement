@@ -363,6 +363,14 @@ function CreateReportChart(_id) {
     }).render();
 }
 
+function UpdateRoomResStats(resCountUrl, resRateUrl) {
+    $.ajax({
+        type: 'GET',
+        url: resCountUrl,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            $("#reservation-count").text(_data);
 function UpdateUserStatistics(userCountUrl, userIncreaseRateUrl) {
     $.ajax({
         type: 'GET',
@@ -379,12 +387,15 @@ function UpdateUserStatistics(userCountUrl, userIncreaseRateUrl) {
 
     $.ajax({
         type: 'GET',
-        url: userIncreaseRateUrl,
+        url: resRateUrl,
         datatype: 'json',
         cache: false,
         success: function (_data) {
             var rate = (Math.abs(_data) * 100).toFixed(2);
             var label = _data > 0 ? "increase" : "decrease";
+            $("#reservation-rate").text(rate + "%");
+            $("#reservation-rate").addClass(_data > 0 ? "text-success" : "text-danger");
+            $("#reservation-label").text(label);
             $("#user-increase-rate").text(rate + "%");
             $("#user-increase-rate").addClass(_data > 0 ? "text-success" : "text-danger");
             $("#increase-decrease-label").text(label);
@@ -422,4 +433,3 @@ function UpdateBestRankedBook(_id, _url) {
             console.log("error: ", xhr, " ", errorType, " ", exception);
         }
     });
-}
