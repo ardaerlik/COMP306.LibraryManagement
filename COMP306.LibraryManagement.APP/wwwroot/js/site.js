@@ -362,3 +362,58 @@ function CreateReportChart(_id) {
         }
     }).render();
 }
+
+
+
+
+
+
+
+
+function UpdateRecentReservations(_url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        cache: false,
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            $(".datatable tbody").empty();
+            data.forEach(function (row) {
+                let statusBadge;
+                switch (row.status) {
+                    case 1:
+                        statusBadge = '<span class="badge bg-warning">Pending</span>';
+                        break;
+                    case 2:
+                        statusBadge = '<span class="badge bg-success">Approved</span>';
+                        break;
+                    case 3:
+                        statusBadge = '<span class="badge bg-danger">Rejected</span>';
+                        break;
+                    case 4:
+                        statusBadge = '<span class="badge bg-warning">Not Enough Quota</span>';
+                        break;
+                    case 5:
+                        statusBadge = '<span class="badge bg-dark">Past Time</span>';
+                        break;
+                    case 6:
+                        statusBadge = '<span class="badge bg-warning">Deleted</span>';
+                        break;
+                }
+
+                let newRow = '<tr>' +
+                    '<th scope="row"><a href="#">#' + row.id + '</a></th>' +
+                    '<td>' + row.userName + '</td>' +
+                    '<td><a href="#" class="text-primary">' + row.roomName + '</a></td>' +
+                    '<td>' + row.createdTime+ '</td>' +
+                    '<td>' + statusBadge + '</td>' +
+                    '</tr>';
+                $(".datatable tbody").append(newRow);
+            });
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
+}

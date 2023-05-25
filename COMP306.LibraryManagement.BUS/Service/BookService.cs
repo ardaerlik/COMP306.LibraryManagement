@@ -32,12 +32,30 @@ namespace COMP306.LibraryManagement.BUS.Service
 
 			return data;
 		}
+
+		public IEnumerable<RecentRoomModel> GetRecentReservations()
+		{
+
+			var data = (from obj in _context.TftLocationreservations
+						orderby obj.CreatedDate descending
+						select new RecentRoomModel
+						{
+							Id = obj.Id,
+							userName = obj.User.Name,
+							roomName = obj.Location.Name,
+							createdTime = obj.CreatedDate,
+							status =obj.ReservationStatus
+						}).Take(25).ToList();
+
+			return data;
+		}
     }
 
 	public interface IBookService
 	{
 		IEnumerable<TftBook> List();
 		IEnumerable<PieChartModel> ListBooksSubjectsPercentage();
+		IEnumerable<RecentRoomModel> GetRecentReservations();
     }
 }
 

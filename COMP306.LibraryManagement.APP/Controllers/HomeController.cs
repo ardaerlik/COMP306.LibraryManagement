@@ -45,6 +45,11 @@ public class HomeController : Controller
         return Json(_bookService.ListBooksSubjectsPercentage());
     }
 
+    public IActionResult GetRecentReservations()
+    {
+        return Json(_bookService.GetRecentReservations());
+    }
+
     public IActionResult Privacy()
     {
         return View();
