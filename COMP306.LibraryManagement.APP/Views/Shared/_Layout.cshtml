@@ -37,12 +37,12 @@
                 <li class="nav-item dropdown pe-3">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="~/assets/img/profile-placeholder.jpg" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">Arda Erlik</span>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">@ViewData["FullName"]</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
-                            <h6>Arda Erlik</h6>
-                            <span>Software Engineer</span>
+                            <h6>@ViewData["FullName"]</h6>
+                            <span>@ViewData["RoleName"]</span>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
@@ -132,6 +132,7 @@
     <script src="~/lib/php-email-form/validate.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/calendar.js" asp-append-version="true"></script>
+    <script src="~/js/account.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
