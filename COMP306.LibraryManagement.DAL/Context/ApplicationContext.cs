@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using COMP306.LibraryManagement.DAL.Entity;
 using Microsoft.EntityFrameworkCore;
@@ -47,7 +47,6 @@ public partial class ApplicationContext : DbContext
     public virtual DbSet<TluSubject> TluSubjects { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySQL("Server=comp-306-library-management.mysql.database.azure.com;Database=preprod;User ID=comp306;Password=test1234!");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -200,6 +199,10 @@ public partial class ApplicationContext : DbContext
                 .HasColumnName("publicationDate");
             entity.Property(e => e.PublicationTitle)
                 .HasMaxLength(500)
+                .HasComment("PublicationTitle");
+            entity.Property(e => e.Rating).HasColumnType("int(11)");
+            entity.Property(e => e.Title).HasMaxLength(500);
+            entity.Property(e => e.Volume).HasColumnType("int(11)");
                 .HasComment("PublicationTitle");
             entity.Property(e => e.Rating).HasColumnType("int(11)");
             entity.Property(e => e.Title).HasMaxLength(500);

@@ -269,14 +269,12 @@
 })();
 
 function CreatePieChart(_id, _url) {
-    debugger;
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: _url,
         datatype: 'json',
         cache: false,
         success: function (_data) {
-            debugger;
             echarts.init(document.querySelector("#" + _id)).setOption({
                 tooltip: {
                     trigger: 'item'
@@ -309,7 +307,7 @@ function CreatePieChart(_id, _url) {
             });
         },
         error: function (xhr, errorType, exception) {
-            console.log("error: ", xhr, " ", errorType, " ", exception);
+            console.error("error: ", xhr, " ", errorType, " ", exception);
         }
     });
 }
@@ -366,6 +364,8 @@ function CreateReportChart(_id) {
 }
 
 function LoadNewComerBooks(_id, _url) {
+  
+function UpdateBestRankedBook(_id, _url) {
     $.ajax({
         type: 'GET',
         url: _url,
@@ -387,9 +387,15 @@ function LoadNewComerBooks(_id, _url) {
                     '</div></div>';
                 activityDiv.append(item);
             });
+            var bookElement = document.querySelector('#' + _id + ' h6');
+            var ratingElement = document.querySelector('#' + _id + ' span');
+
+            bookElement.innerHTML = _data.title;
+            ratingElement.innerHTML = "Rating : " + _data.rating;
         },
         error: function (xhr, errorType, exception) {
             console.log("error: ", xhr, " ", errorType, " ", exception);
         }
     });
+}
 }

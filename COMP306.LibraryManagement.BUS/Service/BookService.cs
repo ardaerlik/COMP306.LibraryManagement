@@ -23,15 +23,15 @@ namespace COMP306.LibraryManagement.BUS.Service
 		public IEnumerable<PieChartModel> ListBooksSubjectsPercentage()
 		{
 			var data = (from obj in _context.TluSubjects
+						orderby obj.Books.Count() descending
 					select new PieChartModel
 					{
 						value = obj.Books.Count(),
 						name = obj.Name
-					}).ToList();
+					}).Take(10).ToList();
 
 			return data;
 		}
-
 
         public IEnumerable<TftBook> ListNewComerBooks()
         {
@@ -42,6 +42,12 @@ namespace COMP306.LibraryManagement.BUS.Service
             return data;
         }
 
+		public TftBook GetBestRankedBook()
+		{
+            var bestRankedBook = _context.TftBooks.OrderByDescending(t => t.Rating).FirstOrDefault();
+
+            return bestRankedBook ?? new();
+        }
     }
 
 
@@ -51,6 +57,7 @@ namespace COMP306.LibraryManagement.BUS.Service
 		IEnumerable<TftBook> List();
 		IEnumerable<PieChartModel> ListBooksSubjectsPercentage();
 		IEnumerable<TftBook> ListNewComerBooks();
+		TftBook GetBestRankedBook();
     }
 }
 
