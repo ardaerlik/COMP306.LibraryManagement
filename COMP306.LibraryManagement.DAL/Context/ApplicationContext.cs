@@ -203,10 +203,6 @@ public partial class ApplicationContext : DbContext
             entity.Property(e => e.Rating).HasColumnType("int(11)");
             entity.Property(e => e.Title).HasMaxLength(500);
             entity.Property(e => e.Volume).HasColumnType("int(11)");
-                .HasComment("PublicationTitle");
-            entity.Property(e => e.Rating).HasColumnType("int(11)");
-            entity.Property(e => e.Title).HasMaxLength(500);
-            entity.Property(e => e.Volume).HasColumnType("int(11)");
 
             entity.HasOne(d => d.Language).WithMany(p => p.TftBooks)
                 .HasForeignKey(d => d.LanguageId)
@@ -319,6 +315,7 @@ public partial class ApplicationContext : DbContext
             entity.HasIndex(e => e.LocationId, "tft_locationreservations___fk");
 
             entity.HasIndex(e => e.UserId, "tft_locationreservations_app_user_Id_fk");
+            entity.HasIndex(e => e.ReservationStatus, "tft_locationreservations_tlu_reservationstatus_Id_fk");
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -333,7 +330,12 @@ public partial class ApplicationContext : DbContext
                 .HasForeignKey(d => d.LocationId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("tft_locationreservations___fk");
-
+                
+            entity.HasOne(d => d.ReservationStatusNavigation).WithMany(p => p.TftLocationreservations)
+                .HasForeignKey(d => d.ReservationStatus)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("tft_locationreservations_tlu_reservationstatus_Id_fk");
+                
             entity.HasOne(d => d.User).WithMany(p => p.TftLocationreservations)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.Restrict)

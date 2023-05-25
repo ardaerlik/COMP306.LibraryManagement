@@ -32,7 +32,30 @@ namespace COMP306.LibraryManagement.BUS.Service
 
 			return data;
 		}
+    
+        public int GetTotalUsers()
+        {
+            return _context.AppUsers.Count();
+        }
 
+
+        public double GetUserIncreaseRate()
+        {
+            var currentDate = DateTime.Now;
+            var startOfCurrentYear = new DateTime(currentDate.Year, 1, 1);
+            var startOfLastYear = startOfCurrentYear.AddYears(-1);
+
+            var usersThisYear = _context.AppUsers.Count(user => user.RegisteredDate >= startOfCurrentYear);
+            var usersLastYear = _context.AppUsers.Count(user => user.RegisteredDate >= startOfLastYear && user.RegisteredDate < startOfCurrentYear);
+
+            if (usersLastYear == 0)
+            {
+                return usersThisYear > 0 ? 1.0 : 0.0;
+            }
+
+            return (double)(usersThisYear - usersLastYear) / usersLastYear;
+        }
+        
         public IEnumerable<TftBook> ListNewComerBooks()
         {
             var data = _context.TftBooks
@@ -49,8 +72,6 @@ namespace COMP306.LibraryManagement.BUS.Service
             return bestRankedBook ?? new();
         }
     }
-
-
 
     public interface IBookService
 	{
