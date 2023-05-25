@@ -1219,5 +1219,10 @@ h6 {
 
 .scheduler_default_corner :nth-child(2) {
     display: none !important;
-} 
+}
 
+
+.scrollable-collections {
+    max-height: 200px; 
+    overflow-y: auto; 
+}

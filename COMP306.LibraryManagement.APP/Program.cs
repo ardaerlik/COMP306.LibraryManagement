@@ -11,7 +11,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
 {
-    options.UseMySQL(builder.Configuration.GetConnectionString("MySql") ?? string.Empty);
+    options.UseMySQL("Server=comp-306-library-management.mysql.database.azure.com;Database=preprod;User ID=comp306;Password=test1234!");
 });
 
 builder.Services.AddAuthentication(options =>
