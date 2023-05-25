@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using COMP306.LibraryManagement.DAL.Entity;
 using Microsoft.EntityFrameworkCore;
@@ -47,7 +47,6 @@ public partial class ApplicationContext : DbContext
     public virtual DbSet<TluSubject> TluSubjects { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySQL("Server=comp-306-library-management.mysql.database.azure.com;Database=preprod;User ID=comp306;Password=test1234!");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -316,6 +315,7 @@ public partial class ApplicationContext : DbContext
             entity.HasIndex(e => e.LocationId, "tft_locationreservations___fk");
 
             entity.HasIndex(e => e.UserId, "tft_locationreservations_app_user_Id_fk");
+            entity.HasIndex(e => e.ReservationStatus, "tft_locationreservations_tlu_reservationstatus_Id_fk");
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
@@ -330,7 +330,12 @@ public partial class ApplicationContext : DbContext
                 .HasForeignKey(d => d.LocationId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("tft_locationreservations___fk");
-
+                
+            entity.HasOne(d => d.ReservationStatusNavigation).WithMany(p => p.TftLocationreservations)
+                .HasForeignKey(d => d.ReservationStatus)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("tft_locationreservations_tlu_reservationstatus_Id_fk");
+                
             entity.HasOne(d => d.User).WithMany(p => p.TftLocationreservations)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.Restrict)
