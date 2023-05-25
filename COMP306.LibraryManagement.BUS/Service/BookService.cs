@@ -32,8 +32,7 @@ namespace COMP306.LibraryManagement.BUS.Service
 
 			return data;
 		}
-
-
+    
         public int GetTotalUsers()
         {
             return _context.AppUsers.Count();
@@ -56,15 +55,30 @@ namespace COMP306.LibraryManagement.BUS.Service
 
             return (double)(usersThisYear - usersLastYear) / usersLastYear;
         }
+        
+        public IEnumerable<TftBook> ListNewComerBooks()
+        {
+            var data = _context.TftBooks
+                               .OrderByDescending(book => book.AddedDate)
+                               .Take(6)
+                               .ToList();
+            return data;
+        }
+
+		public TftBook GetBestRankedBook()
+		{
+            var bestRankedBook = _context.TftBooks.OrderByDescending(t => t.Rating).FirstOrDefault();
+
+            return bestRankedBook ?? new();
+        }
     }
 
-
-	public interface IBookService
+    public interface IBookService
 	{
 		IEnumerable<TftBook> List();
 		IEnumerable<PieChartModel> ListBooksSubjectsPercentage();
-		int GetTotalUsers();
-        double GetUserIncreaseRate();
+		IEnumerable<TftBook> ListNewComerBooks();
+		TftBook GetBestRankedBook();
     }
 }
 

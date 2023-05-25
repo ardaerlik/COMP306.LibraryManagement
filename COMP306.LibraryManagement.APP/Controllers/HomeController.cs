@@ -54,6 +54,16 @@ public class HomeController : Controller
     {
         return Json(_bookService.GetUserIncreaseRate());
     }
+    
+    public IActionResult ListNewComerBooks()
+    {
+        return Json(_bookService.ListNewComerBooks());
+    }
+    
+    public IActionResult GetBestRankedBook()
+    {
+        return Json(_bookService.GetBestRankedBook());
+    }
 
     public IActionResult Privacy()
     {

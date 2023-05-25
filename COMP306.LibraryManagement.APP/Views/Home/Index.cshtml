@@ -69,10 +69,15 @@
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                     <i class="bi bi-book"></i>
                                 </div>
-                                <div class="ps-3">
+                                <div id="best_book_text" class="ps-3">
                                     <h6>A Book</h6>
                                     <span class="text-muted small pt-2 ps-1">Author</span>
                                 </div>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        UpdateBestRankedBook("best_book_text", "@Url.Action("GetBestRankedBook", "Home")");
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -150,7 +155,7 @@
 
         <div class="col-lg-4">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" id="newcomer">
                     <h5 class="card-title">New Comers <span>| Books</span></h5>
                     <div class="activity">
                         <div class="activity-item d-flex">
@@ -197,12 +202,18 @@
                         </div>
                     </div>
                 </div>
+                <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            LoadNewComerBooks("newcomer", "@Url.Action("ListNewComerBooks", "Home")");
+                        });
+                </script>
             </div>
 
             <div class="card">
                 <div class="card-body pb-0">
                     <h5 class="card-title">Book Subjects <span>| Today</span></h5>
                     <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+                    ￼
                     <script>
                         document.addEventListener("DOMContentLoaded", () => {
                             CreatePieChart("trafficChart", "@Url.Action("ListBooksSubjectsPercentage", "Home")");
@@ -213,4 +224,6 @@
         </div>
     </div>
 </section>
+
+
 

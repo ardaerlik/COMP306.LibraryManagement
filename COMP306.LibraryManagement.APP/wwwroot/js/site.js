@@ -363,8 +363,6 @@ function CreateReportChart(_id) {
     }).render();
 }
 
-
-
 function UpdateUserStatistics(userCountUrl, userIncreaseRateUrl) {
     $.ajax({
         type: 'GET',
@@ -390,6 +388,35 @@ function UpdateUserStatistics(userCountUrl, userIncreaseRateUrl) {
             $("#user-increase-rate").text(rate + "%");
             $("#user-increase-rate").addClass(_data > 0 ? "text-success" : "text-danger");
             $("#increase-decrease-label").text(label);
+
+  
+function UpdateBestRankedBook(_id, _url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var activityDiv = $("#" + _id).find(".activity");
+            activityDiv.empty();
+
+            _data.forEach(function (book) {
+                var date = moment(book.addedDate);
+                var now = moment();
+                var addTimeAgo = moment.duration(now.diff(date)).humanize() + ' ago';
+
+                var item = '<div class="activity-item d-flex">' +
+                    '<div class="activite-label">' + addTimeAgo + '</div>' +
+                    '<i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>' +
+                    '<div class="activity-content">' + book.title +
+                    '</div></div>';
+                activityDiv.append(item);
+            });
+            var bookElement = document.querySelector('#' + _id + ' h6');
+            var ratingElement = document.querySelector('#' + _id + ' span');
+
+            bookElement.innerHTML = _data.title;
+            ratingElement.innerHTML = "Rating : " + _data.rating;
         },
         error: function (xhr, errorType, exception) {
             console.log("error: ", xhr, " ", errorType, " ", exception);

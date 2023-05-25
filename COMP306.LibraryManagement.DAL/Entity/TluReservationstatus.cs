@@ -8,6 +8,6 @@ public partial class TluReservationstatus
     public int Id { get; set; }
 
     public string? StatusName { get; set; }
-
+  
     public virtual ICollection<TftLocationreservation> TftLocationreservations { get; set; } = new List<TftLocationreservation>();
 }
