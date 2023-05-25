@@ -48,6 +48,7 @@ public class HomeController : Controller
     public IActionResult GetRecentReservations()
     {
         return Json(_bookService.GetRecentReservations());
+    }
 
     public IActionResult GetRoomReservationCount()
     {

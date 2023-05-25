@@ -771,48 +771,48 @@ h6 {
     top: 15px;
 }
 
-.dashboard .filter .icon {
-    color: #aab7cf;
-    padding-right: 20px;
-    padding-bottom: 5px;
-    transition: 0.3s;
-    font-size: 16px;
-}
+    .dashboard .filter .icon {
+        color: #aab7cf;
+        padding-right: 20px;
+        padding-bottom: 5px;
+        transition: 0.3s;
+        font-size: 16px;
+    }
 
-.dashboard .filter .icon:hover,
-.dashboard .filter .icon:focus {
-    color: #4154f1;
-}
+        .dashboard .filter .icon:hover,
+        .dashboard .filter .icon:focus {
+            color: #4154f1;
+        }
 
-.dashboard .filter .dropdown-header {
-    padding: 8px 15px;
-}
+    .dashboard .filter .dropdown-header {
+        padding: 8px 15px;
+    }
 
-.dashboard .filter .dropdown-header h6 {
-    text-transform: uppercase;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: #aab7cf;
-    margin-bottom: 0;
-    padding: 0;
-}
+        .dashboard .filter .dropdown-header h6 {
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #aab7cf;
+            margin-bottom: 0;
+            padding: 0;
+        }
 
-.dashboard .filter .dropdown-item {
-    padding: 8px 15px;
-}
+    .dashboard .filter .dropdown-item {
+        padding: 8px 15px;
+    }
 
 .dashboard .info-card {
     padding-bottom: 10px;
 }
 
-.dashboard .info-card h6 {
-    font-size: 28px;
-    color: #012970;
-    font-weight: 700;
-    margin: 0;
-    padding: 0;
-}
+    .dashboard .info-card h6 {
+        font-size: 28px;
+        color: #012970;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
 
 .dashboard .card-icon {
     font-size: 32px;
@@ -842,47 +842,47 @@ h6 {
     font-size: 14px;
 }
 
-.dashboard .activity .activity-item .activite-label {
-    color: #888;
-    position: relative;
-    flex-shrink: 0;
-    flex-grow: 0;
-    min-width: 64px;
-}
+    .dashboard .activity .activity-item .activite-label {
+        color: #888;
+        position: relative;
+        flex-shrink: 0;
+        flex-grow: 0;
+        min-width: 64px;
+    }
 
-.dashboard .activity .activity-item .activite-label::before {
-    content: "";
-    position: absolute;
-    right: -11px;
-    width: 4px;
-    top: 0;
-    bottom: 0;
-    background-color: #eceefe;
-}
+        .dashboard .activity .activity-item .activite-label::before {
+            content: "";
+            position: absolute;
+            right: -11px;
+            width: 4px;
+            top: 0;
+            bottom: 0;
+            background-color: #eceefe;
+        }
 
-.dashboard .activity .activity-item .activity-badge {
-    margin-top: 3px;
-    z-index: 1;
-    font-size: 11px;
-    line-height: 0;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 3px solid #fff;
-    flex-grow: 0;
-}
+    .dashboard .activity .activity-item .activity-badge {
+        margin-top: 3px;
+        z-index: 1;
+        font-size: 11px;
+        line-height: 0;
+        border-radius: 50%;
+        flex-shrink: 0;
+        border: 3px solid #fff;
+        flex-grow: 0;
+    }
 
-.dashboard .activity .activity-item .activity-content {
-    padding-left: 10px;
-    padding-bottom: 20px;
-}
+    .dashboard .activity .activity-item .activity-content {
+        padding-left: 10px;
+        padding-bottom: 20px;
+    }
 
-.dashboard .activity .activity-item:first-child .activite-label::before {
-    top: 5px;
-}
+    .dashboard .activity .activity-item:first-child .activite-label::before {
+        top: 5px;
+    }
 
-.dashboard .activity .activity-item:last-child .activity-content {
-    padding-bottom: 0;
-}
+    .dashboard .activity .activity-item:last-child .activity-content {
+        padding-bottom: 0;
+    }
 
 .dashboard .news .post-item + .post-item {
     margin-top: 15px;
@@ -901,14 +901,14 @@ h6 {
     margin-bottom: 5px;
 }
 
-.dashboard .news h4 a {
-    color: #012970;
-    transition: 0.3s;
-}
+    .dashboard .news h4 a {
+        color: #012970;
+        transition: 0.3s;
+    }
 
-.dashboard .news h4 a:hover {
-    color: #4154f1;
-}
+        .dashboard .news h4 a:hover {
+            color: #4154f1;
+        }
 
 .dashboard .news p {
     font-size: 14px;
@@ -920,42 +920,42 @@ h6 {
     font-size: 14px;
 }
 
-.dashboard .recent-sales .table thead {
-    background: #f6f6fe;
-}
+    .dashboard .recent-sales .table thead {
+        background: #f6f6fe;
+    }
 
-.dashboard .recent-sales .table thead th {
-    border: 0;
-}
+        .dashboard .recent-sales .table thead th {
+            border: 0;
+        }
 
-.dashboard .recent-sales .dataTable-top {
-    padding: 0 0 10px 0;
-}
+    .dashboard .recent-sales .dataTable-top {
+        padding: 0 0 10px 0;
+    }
 
-.dashboard .recent-sales .dataTable-bottom {
-    padding: 10px 0 0 0;
-}
+    .dashboard .recent-sales .dataTable-bottom {
+        padding: 10px 0 0 0;
+    }
 
 .dashboard .top-selling {
     font-size: 14px;
 }
 
-.dashboard .top-selling .table thead {
-    background: #f6f6fe;
-}
+    .dashboard .top-selling .table thead {
+        background: #f6f6fe;
+    }
 
-.dashboard .top-selling .table thead th {
-    border: 0;
-}
+        .dashboard .top-selling .table thead th {
+            border: 0;
+        }
 
-.dashboard .top-selling .table tbody td {
-    vertical-align: middle;
-}
+    .dashboard .top-selling .table tbody td {
+        vertical-align: middle;
+    }
 
-.dashboard .top-selling img {
-    border-radius: 5px;
-    max-width: 60px;
-}
+    .dashboard .top-selling img {
+        border-radius: 5px;
+        max-width: 60px;
+    }
 
 .iconslist {
     display: grid;
@@ -965,30 +965,30 @@ h6 {
     padding-top: 15px;
 }
 
-.iconslist .icon {
-    background-color: #fff;
-    border-radius: 0.25rem;
-    text-align: center;
-    color: #012970;
-    padding: 15px 0;
-}
+    .iconslist .icon {
+        background-color: #fff;
+        border-radius: 0.25rem;
+        text-align: center;
+        color: #012970;
+        padding: 15px 0;
+    }
 
-.iconslist i {
-    margin: 0.25rem;
-    font-size: 2.5rem;
-}
+    .iconslist i {
+        margin: 0.25rem;
+        font-size: 2.5rem;
+    }
 
-.iconslist .label {
-    font-family: var(--bs-font-monospace);
-    display: inline-block;
-    width: 100%;
-    overflow: hidden;
-    padding: 0.25rem;
-    font-size: 12px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: #666;
-}
+    .iconslist .label {
+        font-family: var(--bs-font-monospace);
+        display: inline-block;
+        width: 100%;
+        overflow: hidden;
+        padding: 0.25rem;
+        font-size: 12px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #666;
+    }
 
 .profile .profile-card img {
     max-width: 120px;
@@ -1014,9 +1014,9 @@ h6 {
     transition: 0.3s;
 }
 
-.profile .profile-card .social-links a:hover {
-    color: #012970;
-}
+    .profile .profile-card .social-links a:hover {
+        color: #012970;
+    }
 
 .profile .profile-overview .row {
     margin-bottom: 20px;
@@ -1055,25 +1055,25 @@ h6 {
     padding: 28px 30px;
 }
 
-.contact .info-box i {
-    font-size: 38px;
-    line-height: 0;
-    color: #4154f1;
-}
+    .contact .info-box i {
+        font-size: 38px;
+        line-height: 0;
+        color: #4154f1;
+    }
 
-.contact .info-box h3 {
-    font-size: 20px;
-    color: #012970;
-    font-weight: 700;
-    margin: 20px 0 10px 0;
-}
+    .contact .info-box h3 {
+        font-size: 20px;
+        color: #012970;
+        font-weight: 700;
+        margin: 20px 0 10px 0;
+    }
 
-.contact .info-box p {
-    padding: 0;
-    line-height: 24px;
-    font-size: 14px;
-    margin-bottom: 0;
-}
+    .contact .info-box p {
+        padding: 0;
+        line-height: 24px;
+        font-size: 14px;
+        margin-bottom: 0;
+    }
 
 .contact .php-email-form .error-message {
     display: none;
@@ -1103,17 +1103,17 @@ h6 {
     margin-bottom: 24px;
 }
 
-.contact .php-email-form .loading:before {
-    content: "";
-    display: inline-block;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    margin: 0 10px -6px 0;
-    border: 3px solid #18d26e;
-    border-top-color: #eee;
-    animation: animate-loading 1s linear infinite;
-}
+    .contact .php-email-form .loading:before {
+        content: "";
+        display: inline-block;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        margin: 0 10px -6px 0;
+        border: 3px solid #18d26e;
+        border-top-color: #eee;
+        animation: animate-loading 1s linear infinite;
+    }
 
 .contact .php-email-form input,
 .contact .php-email-form textarea {
@@ -1123,10 +1123,10 @@ h6 {
     border-radius: 0;
 }
 
-.contact .php-email-form input:focus,
-.contact .php-email-form textarea:focus {
-    border-color: #4154f1;
-}
+    .contact .php-email-form input:focus,
+    .contact .php-email-form textarea:focus {
+        border-color: #4154f1;
+    }
 
 .contact .php-email-form input {
     padding: 10px 15px;
@@ -1145,9 +1145,9 @@ h6 {
     border-radius: 4px;
 }
 
-.contact .php-email-form button[type=submit]:hover {
-    background: #5969f3;
-}
+    .contact .php-email-form button[type=submit]:hover {
+        background: #5969f3;
+    }
 
 @keyframes animate-loading {
     0% {
@@ -1163,30 +1163,30 @@ h6 {
     padding: 30px;
 }
 
-.error-404 h1 {
-    font-size: 180px;
-    font-weight: 700;
-    color: #4154f1;
-    margin-bottom: 0;
-    line-height: 150px;
-}
+    .error-404 h1 {
+        font-size: 180px;
+        font-weight: 700;
+        color: #4154f1;
+        margin-bottom: 0;
+        line-height: 150px;
+    }
 
-.error-404 h2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #012970;
-    margin-bottom: 30px;
-}
+    .error-404 h2 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #012970;
+        margin-bottom: 30px;
+    }
 
-.error-404 .btn {
-    background: #51678f;
-    color: #fff;
-    padding: 8px 30px;
-}
+    .error-404 .btn {
+        background: #51678f;
+        color: #fff;
+        padding: 8px 30px;
+    }
 
-.error-404 .btn:hover {
-    background: #3e4f6f;
-}
+        .error-404 .btn:hover {
+            background: #3e4f6f;
+        }
 
 @media (min-width: 992px) {
     .error-404 img {
@@ -1201,17 +1201,17 @@ h6 {
     border-top: 1px solid #cddfff;
 }
 
-.footer .copyright {
-    text-align: center;
-    color: #012970;
-}
+    .footer .copyright {
+        text-align: center;
+        color: #012970;
+    }
 
-.footer .credits {
-    padding-top: 5px;
-    text-align: center;
-    font-size: 13px;
-    color: #012970;
-}
+    .footer .credits {
+        padding-top: 5px;
+        text-align: center;
+        font-size: 13px;
+        color: #012970;
+    }
 
 #reservationCalendar .scheduler_default_cellparent, .scheduler_default_cell.scheduler_default_cell_business.scheduler_default_cellparent {
     background: #f3f3f3;
@@ -1221,8 +1221,7 @@ h6 {
     display: none !important;
 }
 
-
 .scrollable-collections {
-    max-height: 200px; 
-    overflow-y: auto; 
+    max-height: 200px;
+    overflow-y: auto;
 }

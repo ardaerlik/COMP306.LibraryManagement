@@ -39,10 +39,12 @@ namespace COMP306.LibraryManagement.APP.Controllers
         {
             return Json(_bookService.BookList());
         }
+
         public IActionResult BookListTry([FromBody] SearchBookModel model)
         {
             return Json(_bookService.BookListTry(model));
         }
+
         public IActionResult ContentsList()
         {
             return Json(_bookService.ContentsList());
