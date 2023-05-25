@@ -32,12 +32,39 @@ namespace COMP306.LibraryManagement.BUS.Service
 
 			return data;
 		}
+
+        public int GetRoomReservationCount()
+        {
+			var data = _context.TftLocationreservations.Count();
+
+			return data;
+		}
+
+		public double GetRoomReservationRate()
+		{
+			var currentDate = DateTime.Now;
+			var yesterday = currentDate.AddDays(-1);
+
+			var reservationsToday = _context.TftLocationreservations.Count(res => res.ReservationStartDate.Day == currentDate.Day);
+			var reservationsYesterday = _context.TftLocationreservations.Count(res => res.ReservationStartDate.Day == yesterday.Day);
+
+            if (reservationsYesterday == 0)
+            {
+                return reservationsToday > 0 ? 1.0 : 0.0;
+            }
+
+			return (double) (reservationsToday - reservationsYesterday) / reservationsYesterday;
+        }
+
     }
 
-	public interface IBookService
+
+    public interface IBookService
 	{
 		IEnumerable<TftBook> List();
 		IEnumerable<PieChartModel> ListBooksSubjectsPercentage();
+		int GetRoomReservationCount();
+		double GetRoomReservationRate();
     }
 }
 

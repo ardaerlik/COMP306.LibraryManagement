@@ -45,6 +45,18 @@ public class HomeController : Controller
         return Json(_bookService.ListBooksSubjectsPercentage());
     }
 
+    public IActionResult GetRoomReservationCount()
+    {
+        return Json(_bookService.GetRoomReservationCount());
+    }
+
+    public IActionResult GetRoomReservationRate()
+    {
+        return Json(_bookService.GetRoomReservationRate());
+    }
+
+
+
     public IActionResult Privacy()
     {
         return View();

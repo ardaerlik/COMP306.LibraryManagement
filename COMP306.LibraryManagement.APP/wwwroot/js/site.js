@@ -362,3 +362,39 @@ function CreateReportChart(_id) {
         }
     }).render();
 }
+
+
+
+
+
+function UpdateRoomResStats(resCountUrl, resRateUrl) {
+    $.ajax({
+        type: 'GET',
+        url: resCountUrl,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            $("#reservation-count").text(_data);
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: resRateUrl,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            var rate = (Math.abs(_data) * 100).toFixed(2);
+            var label = _data > 0 ? "increase" : "decrease";
+            $("#reservation-rate").text(rate + "%");
+            $("#reservation-rate").addClass(_data > 0 ? "text-success" : "text-danger");
+            $("#reservation-label").text(label);
+        },
+        error: function (xhr, errorType, exception) {
+            console.log("error: ", xhr, " ", errorType, " ", exception);
+        }
+    });
+}
