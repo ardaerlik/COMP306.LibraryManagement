@@ -35,7 +35,8 @@ namespace COMP306.LibraryManagement.BUS.Service
 
         public int GetRoomReservationCount()
         {
-			var data = _context.TftLocationreservations.Count();
+            var currentDate = DateTime.Now;
+            var data = _context.TftLocationreservations.Count(res => res.ReservationStartDate.Day == currentDate.Day);
 
 			return data;
 		}
