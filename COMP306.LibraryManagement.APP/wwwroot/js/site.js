@@ -312,55 +312,76 @@ function CreatePieChart(_id, _url) {
     });
 }
 
-function CreateReportChart(_id) {
-    new ApexCharts(document.querySelector("#" + _id), {
-        series: [{
-            name: 'A Book',
-            data: [31, 40, 28, 51, 42, 82, 56],
-        }, {
-            name: 'B Book',
-            data: [11, 32, 45, 32, 34, 52, 41]
-        }, {
-            name: 'C Book',
-            data: [15, 11, 32, 18, 9, 24, 11]
-        }],
-        chart: {
-            height: 350,
-            type: 'area',
-            toolbar: {
-                show: false
-            },
+function CreateReportChart(_id, _url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            console.log(_data);
+            let seriesData = _data.map(roomReport => ({
+                name: roomReport.roomName,
+                data: roomReport.hourlyRoomResList
+            }));
+
+            new ApexCharts(document.querySelector("#" + _id), {
+                series: seriesData,
+                chart: {
+                    height: 350,
+                    type: 'area',
+                    toolbar: {
+                        show: false
+                    },
+                },
+                markers: {
+                    size: 4
+                },
+                colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.3,
+                        opacityTo: 0.4,
+                        stops: [0, 90, 100]
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2
+                },
+                xaxis: {
+                    type: 'datetime',
+                    categories: getHourlyCategories()
+                },
+                tooltip: {
+                    x: {
+                        format: 'dd/MM/yy HH:mm'
+                    },
+                }
+            }).render();
         },
-        markers: {
-            size: 4
-        },
-        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-        fill: {
-            type: "gradient",
-            gradient: {
-                shadeIntensity: 1,
-                opacityFrom: 0.3,
-                opacityTo: 0.4,
-                stops: [0, 90, 100]
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'smooth',
-            width: 2
-        },
-        xaxis: {
-            type: 'datetime',
-            categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-        },
-        tooltip: {
-            x: {
-                format: 'dd/MM/yy HH:mm'
-            },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
         }
-    }).render();
+    });
+}
+
+
+function getHourlyCategories() {
+    let currentDate = new Date();
+    currentDate.setMinutes(0, 0, 0);
+
+    let categories = [];
+    for (let i = 0; i <= 23; i++) {
+        currentDate.setHours(i);
+        categories.push(currentDate.toISOString());
+    }
+    return categories;
 }
 
 function findBook(_id, _url) {

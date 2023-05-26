@@ -177,6 +177,37 @@ namespace COMP306.LibraryManagement.BUS.Service
             var data = (from obj in _context.TftAuthors select obj).ToList();
             return data;
         }
+
+
+        public IEnumerable<RoomReportModel> ListRoomReports()
+        {
+            var currentDate = DateTime.Now;
+            var reservations = _context.TftLocationreservations.Where(r => r.ReservationStartDate.Day == currentDate.Day).ToList();
+            var locations = _context.TftLocations.ToList();
+
+            var groupedReservations = reservations
+                .GroupBy(r => new { roomId = r.LocationId});
+
+            List<RoomReportModel> roomReports = new List<RoomReportModel>();
+
+            foreach (var group in groupedReservations)
+            {
+                var roomReport = new RoomReportModel();
+                roomReport.roomName = locations[group.Key.roomId].Name;
+
+                roomReport.hourlyRoomResList = new List<int>(new int[24]);
+
+                foreach (var reservation in group)
+                {
+                    roomReport.hourlyRoomResList[reservation.ReservationStartDate.Hour]++;
+                }
+
+                roomReports.Add(roomReport);
+            }
+
+            return roomReports;
+        }
+
     }
 
     public interface IBookService
@@ -196,5 +227,6 @@ namespace COMP306.LibraryManagement.BUS.Service
         IEnumerable<TluSubject> SubjectsList();
         IEnumerable<TluLanguage> LanguagesList();
         IEnumerable<TftAuthor> AuthorsList();
+        IEnumerable<RoomReportModel> ListRoomReports();
     }
 }

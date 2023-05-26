@@ -91,10 +91,10 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Book Reservation Report <span>/Today</span></h5>
+                            <h5 class="card-title">Room Reservation Report <span>/Today</span></h5>
                             <div id="reportsChart"></div>
                             <script>document.addEventListener("DOMContentLoaded", () => {
-                                    CreateReportChart("reportsChart");
+                                    CreateReportChart("reportsChart","@Url.Action("ListRoomReports", "Home")");
                                 });</script>
                         </div>
                     </div>
