@@ -699,7 +699,7 @@ function LoadNewComerBooks(_id, _url) {
     });
 }
 
-function UpdateRecentReservations(_url) {
+function UpdateRecentReservations(_id,_url) {
     $.ajax({
         type: 'GET',
         url: _url,
@@ -707,7 +707,8 @@ function UpdateRecentReservations(_url) {
         dataType: 'json',
         success: function (data) {
             console.log(data);
-            $(".datatable tbody").empty();
+            $("#" + _id).empty();
+            let index = 0;
             data.forEach(function (row) {
                 let statusBadge;
                 switch (row.status) {
@@ -731,14 +732,16 @@ function UpdateRecentReservations(_url) {
                         break;
                 }
 
-                let newRow = '<tr>' +
-                    '<th scope="row"><a href="#">#' + row.id + '</a></th>' +
+                let newRow = '<tr data-index="' + index + '">' +
+                    '<td><a href="#">#' + row.id + '</a></td>' +
                     '<td>' + row.userName + '</td>' +
                     '<td><a href="#" class="text-primary">' + row.roomName + '</a></td>' +
                     '<td>' + row.createdTime + '</td>' +
                     '<td>' + statusBadge + '</td>' +
                     '</tr>';
-                $(".datatable tbody").append(newRow);
+                $(newRow).appendTo("#" + _id);
+                index++;
+                console.log(newRow);
             });
         },
         error: function (jqXHR, textStatus, errorThrown) {

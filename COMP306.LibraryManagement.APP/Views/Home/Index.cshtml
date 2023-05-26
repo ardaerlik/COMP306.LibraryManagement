@@ -103,7 +103,7 @@
                 <div class="col-12">
                     <div class="card recent-sales overflow-auto">
                         <div class="card-body">
-                            <h5 class="card-title">Recent Room Reservations <span>| Today</span></h5>
+                            <h5 class="card-title">Recent Room Reservations <span></span></h5>
                             <table class="table table-borderless datatable">
                                 <thead>
                                     <tr>
@@ -114,20 +114,13 @@
                                         <th scope="col">Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row"><a href="#">#100</a></th>
-                                        <td>Brandon Jacob</td>
-                                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                                        <td>11.01.2022</td>
-                                        <td><span class="badge bg-success">Approved</span></td>
-                                    </tr>
-                             
+                                <tbody id="table-body">
+                                    <tr></tr>
                                 </tbody>
                             </table>
                             <script>
                                 document.addEventListener("DOMContentLoaded", () => {
-                                    UpdateRecentReservations("@Url.Action("GetRecentReservations", "Home")");
+                                    UpdateRecentReservations("table-body","@Url.Action("GetRecentReservations", "Home")");
                                 });
                             </script>
                         </div>
