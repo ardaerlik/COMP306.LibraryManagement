@@ -312,56 +312,94 @@ function CreatePieChart(_id, _url) {
     });
 }
 
-function CreateReportChart(_id) {
-    new ApexCharts(document.querySelector("#" + _id), {
-        series: [{
-            name: 'A Book',
-            data: [31, 40, 28, 51, 42, 82, 56],
-        }, {
-            name: 'B Book',
-            data: [11, 32, 45, 32, 34, 52, 41]
-        }, {
-            name: 'C Book',
-            data: [15, 11, 32, 18, 9, 24, 11]
-        }],
-        chart: {
-            height: 350,
-            type: 'area',
-            toolbar: {
-                show: false
-            },
+function CreateReportChart(_id, _url) {
+    $.ajax({
+        type: 'GET',
+        url: _url,
+        datatype: 'json',
+        cache: false,
+        success: function (_data) {
+            console.log(_data);
+            let seriesData = _data.map(roomReport => ({
+                name: roomReport.roomName,
+                data: roomReport.hourlyRoomResList
+            }));
+
+            new ApexCharts(document.querySelector("#" + _id), {
+                series: seriesData,
+                chart: {
+                    height: 350,
+                    type: 'area',
+                    toolbar: {
+                        show: false
+                    },
+                },
+                markers: {
+                    size: 4
+                },
+                colors: ['#4154f1', '#2eca6a', '#ff771d', '#8B008B', '#FF4500', '#2E8B57', '#ADFF2F', '#FFD700', '#DC143C', '#00BFFF'],
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.3,
+                        opacityTo: 0.4,
+                        stops: [0, 90, 100]
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2
+                },
+                xaxis: {
+                    type: 'datetime',
+                    labels: {
+                        formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+                            let date = new Date(value);
+                            date.setMinutes(0);
+                            return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                        },
+                    },
+                    categories: getHourlyCategories()
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function (value) {
+                            return Math.floor(value);
+                        }
+                    }
+                },
+                tooltip: {
+                    x: {
+                        format: 'dd/MM/yy HH:mm',
+                        formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+                            return new Date(value).toLocaleString();
+                        }
+                    },
+                }
+            }).render();
         },
-        markers: {
-            size: 4
-        },
-        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-        fill: {
-            type: "gradient",
-            gradient: {
-                shadeIntensity: 1,
-                opacityFrom: 0.3,
-                opacityTo: 0.4,
-                stops: [0, 90, 100]
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'smooth',
-            width: 2
-        },
-        xaxis: {
-            type: 'datetime',
-            categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-        },
-        tooltip: {
-            x: {
-                format: 'dd/MM/yy HH:mm'
-            },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
         }
-    }).render();
+    });
 }
+
+
+function getHourlyCategories() {
+    var date = new Date();
+    date.setHours(0, 0, 0, 0);
+    var categories = [];
+    for (var i = 0; i < 24; i++) {
+        categories.push(date.toISOString());
+        date.setHours(date.getHours() + 1);
+    }
+    return categories;
+}
+
 
 function findBook(_id, _url) {
     var selectedCheckboxes = document.querySelectorAll("input[type=checkbox]:checked");

@@ -80,6 +80,11 @@ public class HomeController : Controller
         return Json(_bookService.GetBestRankedBook());
     }
 
+    public IActionResult ListRoomReports()
+    {
+        return Json(_bookService.ListRoomReports());
+    }
+
     public IActionResult Privacy()
     {
         return View();
