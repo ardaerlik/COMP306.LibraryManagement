@@ -36,7 +36,8 @@ namespace COMP306.LibraryManagement.BUS.Service
 
         public TftBook GetBestRankedBook()
         {
-            var bestRankedBook = _context.TftBooks.OrderByDescending(t => t.Rating).FirstOrDefault();
+            var currentDate = DateTime.Now;
+            var bestRankedBook = _context.TftBooks.Where(book=> book.AddedDate.Month == currentDate.Month).OrderByDescending(t => t.Rating).FirstOrDefault();
 
             return bestRankedBook ?? new();
         }
@@ -52,7 +53,7 @@ namespace COMP306.LibraryManagement.BUS.Service
 
         public IEnumerable<RecentRoomModel> GetRecentReservations()
         {
-
+            var currentDate = DateTime.Now;
             var data = (from obj in _context.TftLocationreservations
                         orderby obj.CreatedDate descending
                         select new RecentRoomModel
