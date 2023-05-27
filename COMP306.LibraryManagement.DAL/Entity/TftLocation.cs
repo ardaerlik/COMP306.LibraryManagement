@@ -13,5 +13,7 @@ public partial class TftLocation
 
     public int Capacity { get; set; }
 
+    public virtual TluLocationtype LocationType { get; set; } = null!;
+
     public virtual ICollection<TftLocationreservation> TftLocationreservations { get; set; } = new List<TftLocationreservation>();
 }

@@ -183,27 +183,34 @@ namespace COMP306.LibraryManagement.BUS.Service
         public IEnumerable<RoomReportModel> ListRoomReports()
         {
             var currentDate = DateTime.Now;
-            var reservations = _context.TftLocationreservations.Where(r => r.CreatedDate.Day == currentDate.Day).ToList();
-            var locations = _context.TftLocations.ToList();
 
-            var groupedReservations = reservations
-                .GroupBy(r => new { roomId = r.LocationId});
+            var queryList = _context.TftLocationreservations
+                .Where(r => r.CreatedDate.Day == currentDate.Day)
+                .Join(_context.TftLocations,
+                    reservation => reservation.LocationId,
+                    location => location.Id,
+                    (reservation, location) => new { Reservation = reservation, Location = location })
+                .GroupBy(res => new { res.Reservation.CreatedDate.Hour, res.Location.Id, res.Location.Name })
+                .Select(group => new { Hour = group.Key.Hour, RoomId = group.Key.Id, RoomName = group.Key.Name, Count = group.Count() })
+                .ToList();
 
             List<RoomReportModel> roomReports = new List<RoomReportModel>();
 
-            foreach (var group in groupedReservations)
+            foreach (var query in queryList)
             {
-                var roomReport = new RoomReportModel();
-                roomReport.roomName = locations[group.Key.roomId-1].Name;
-                roomReport.roomId = group.Key.roomId;
-                roomReport.hourlyRoomResList = new List<int>(new int[24]);
-
-                foreach (var reservation in group)
+                var roomReport = roomReports.FirstOrDefault(r => r.roomId == query.RoomId);
+                if (roomReport == null)
                 {
-                    roomReport.hourlyRoomResList[reservation.CreatedDate.Hour]++;
+                    roomReport = new RoomReportModel
+                    {
+                        roomId = query.RoomId,
+                        roomName = query.RoomName,
+                        hourlyRoomResList = new List<int>(new int[24])
+                    };
+                    roomReports.Add(roomReport);
                 }
 
-                roomReports.Add(roomReport);
+                roomReport.hourlyRoomResList[query.Hour] = query.Count;
             }
 
             return roomReports;
