@@ -10,4 +10,6 @@ public partial class TluLocationtype
     public string Name { get; set; } = null!;
 
     public ulong CanBeReserved { get; set; }
+
+    public virtual ICollection<TftLocation> TftLocations { get; set; } = new List<TftLocation>();
 }
