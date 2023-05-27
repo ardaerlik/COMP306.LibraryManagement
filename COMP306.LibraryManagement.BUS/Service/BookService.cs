@@ -182,7 +182,7 @@ namespace COMP306.LibraryManagement.BUS.Service
         public IEnumerable<RoomReportModel> ListRoomReports()
         {
             var currentDate = DateTime.Now;
-            var reservations = _context.TftLocationreservations.Where(r => r.ReservationStartDate.Day == currentDate.Day).ToList();
+            var reservations = _context.TftLocationreservations.Where(r => r.CreatedDate.Day == currentDate.Day).ToList();
             var locations = _context.TftLocations.ToList();
 
             var groupedReservations = reservations
@@ -193,13 +193,13 @@ namespace COMP306.LibraryManagement.BUS.Service
             foreach (var group in groupedReservations)
             {
                 var roomReport = new RoomReportModel();
-                roomReport.roomName = locations[group.Key.roomId].Name;
-
+                roomReport.roomName = locations[group.Key.roomId-1].Name;
+                roomReport.roomId = group.Key.roomId;
                 roomReport.hourlyRoomResList = new List<int>(new int[24]);
 
                 foreach (var reservation in group)
                 {
-                    roomReport.hourlyRoomResList[reservation.ReservationStartDate.Hour]++;
+                    roomReport.hourlyRoomResList[reservation.CreatedDate.Hour]++;
                 }
 
                 roomReports.Add(roomReport);

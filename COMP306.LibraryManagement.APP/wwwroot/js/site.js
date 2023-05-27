@@ -337,7 +337,7 @@ function CreateReportChart(_id, _url) {
                 markers: {
                     size: 4
                 },
-                colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                colors: ['#4154f1', '#2eca6a', '#ff771d', '#8B008B', '#FF4500', '#2E8B57', '#ADFF2F', '#FFD700', '#DC143C', '#00BFFF'],
                 fill: {
                     type: "gradient",
                     gradient: {
@@ -356,11 +356,28 @@ function CreateReportChart(_id, _url) {
                 },
                 xaxis: {
                     type: 'datetime',
+                    labels: {
+                        formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+                            let date = new Date(value);
+                            date.setMinutes(0);
+                            return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                        },
+                    },
                     categories: getHourlyCategories()
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function (value) {
+                            return Math.floor(value);
+                        }
+                    }
                 },
                 tooltip: {
                     x: {
-                        format: 'dd/MM/yy HH:mm'
+                        format: 'dd/MM/yy HH:mm',
+                        formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+                            return new Date(value).toLocaleString();
+                        }
                     },
                 }
             }).render();
@@ -373,16 +390,16 @@ function CreateReportChart(_id, _url) {
 
 
 function getHourlyCategories() {
-    let currentDate = new Date();
-    currentDate.setMinutes(0, 0, 0);
-
-    let categories = [];
-    for (let i = 0; i <= 23; i++) {
-        currentDate.setHours(i);
-        categories.push(currentDate.toISOString());
+    var date = new Date();
+    date.setHours(0, 0, 0, 0);
+    var categories = [];
+    for (var i = 0; i < 24; i++) {
+        categories.push(date.toISOString());
+        date.setHours(date.getHours() + 1);
     }
     return categories;
 }
+
 
 function findBook(_id, _url) {
     var selectedCheckboxes = document.querySelectorAll("input[type=checkbox]:checked");

@@ -4,6 +4,7 @@ namespace COMP306.LibraryManagement.BUS.Model
 	public class RoomReportModel
 	{
 		public string roomName { get; set; }
+		public int roomId { get; set; }
         public List<int> hourlyRoomResList { get; set; }
     }
 }
