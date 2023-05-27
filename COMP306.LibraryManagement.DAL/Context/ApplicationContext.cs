@@ -47,6 +47,7 @@ public partial class ApplicationContext : DbContext
     public virtual DbSet<TluSubject> TluSubjects { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySQL("Server=comp-306-library-management.mysql.database.azure.com;Database=preprod;User ID=comp306;Password=test1234!");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -300,10 +301,17 @@ public partial class ApplicationContext : DbContext
 
             entity.ToTable("tft_location");
 
+            entity.HasIndex(e => e.LocationTypeId, "tft_location_tlu_locationtype_Id_fk");
+
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Capacity).HasColumnType("int(11)");
             entity.Property(e => e.LocationTypeId).HasColumnType("int(11)");
             entity.Property(e => e.Name).HasMaxLength(50);
+
+            entity.HasOne(d => d.LocationType).WithMany(p => p.TftLocations)
+                .HasForeignKey(d => d.LocationTypeId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("tft_location_tlu_locationtype_Id_fk");
         });
 
         modelBuilder.Entity<TftLocationreservation>(entity =>
