@@ -151,11 +151,10 @@ namespace COMP306.LibraryManagement.BUS.Service
             data = data.Union(_context.TftAuthors.Where(a => authors.Contains(a.Id)).SelectMany(a => a.Books)).ToList();
             data = data.Union(_context.TluLanguages.Where(l => languages.Contains(l.Id)).SelectMany(l => l.TftBooks)).ToList();
             data = data.Union(_context.TftBooks.Where(k => keyword.Contains(k.Title))).ToList();
-            data = data.Union(_context.TftBooks.Where(k => keyword.Contains(k.Title))).ToList();
-
+            
             if (keyword.Length != 0)
-            {
-                data = data.Intersect(_context.TftBooks.Where(k => keyword.Contains(k.Title))).ToList();
+            {   
+                data = data.Union(_context.TftBooks.Where(k => k.Title.Contains(keyword))).ToList();
             }
 
             try
