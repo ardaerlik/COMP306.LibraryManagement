@@ -117,7 +117,18 @@ namespace COMP306.LibraryManagement.BUS.Service
         public IEnumerable<TftBook> BookList()
         {
 
-            var data = (from obj in _context.TftBooks orderby obj.Rating descending select obj).Take(20).ToList();
+            var data = (from book in _context.TftBooks                       
+                        join content in _context.TluContents on book.Id equals content.Id
+                        join author in _context.TftAuthors on book.Id equals author.Id
+                        orderby book.Rating descending
+                        select new TftBook
+                        {
+                            Id = book.Id,
+                            Title = book.Title,
+                            PublicationDate = book.PublicationDate,
+                            Contents = new List<TluContent> { content },
+                            Authors = new List<TftAuthor> { author }
+                        }).Take(20).ToList();
             return data;
 
         }
@@ -140,6 +151,11 @@ namespace COMP306.LibraryManagement.BUS.Service
             data = data.Union(_context.TftAuthors.Where(a => authors.Contains(a.Id)).SelectMany(a => a.Books)).ToList();
             data = data.Union(_context.TluLanguages.Where(l => languages.Contains(l.Id)).SelectMany(l => l.TftBooks)).ToList();
             data = data.Union(_context.TftBooks.Where(k => keyword.Contains(k.Title))).ToList();
+            
+            if (keyword.Length != 0)
+            {   
+                data = data.Union(_context.TftBooks.Where(k => k.Title.Contains(keyword))).ToList();
+            }
 
             try
             {

@@ -455,6 +455,8 @@ function findBook(_id, _url) {
             var listGroup = document.querySelector("#" + _id);
             listGroup.innerHTML = "";
 
+            console.log(_data);
+
             _data.forEach(function (item) {
                 var listItem = document.createElement("li");
                 listItem.classList.add("list-group-item");
@@ -664,13 +666,13 @@ function getInitialBooks(_id, _url) {
                 title.textContent = "Title: " + item.title;
 
                 var author = document.createElement("p");
-                author.textContent = "Authors: " + item.authors[0];
+                author.textContent = "Authors: " + item.authors[0].name + " " + item.authors[0].surname;
 
                 var publicationDate = document.createElement("p");
                 publicationDate.textContent = "Publication: " + item.publicationDate;
 
                 var content = document.createElement("p");
-                content.textContent = "Contents: " + item.contents[0];
+                content.textContent = "Contents: " + item.contents[0].name;
 
 
                 listItem.appendChild(title);
